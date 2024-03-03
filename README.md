@@ -4,6 +4,28 @@ Este proyecto consiste en una aplicación de gestión de ventas y compras para u
 
 ---
 
+### Pasos de Instalación 🌈
+
+* Python 3.9 - https://www.python.org/ftp/python/3.9.0/python-3.9.0-amd64.exe
+* MySQL Installer - https://dev.mysql.com/downloads/file/?id=526407 (Descargar modo 'Full Service').
+* Visual Studio Code - https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user
+
+Estando dentro de la carpeta del proyecto una vez descargado, tenemos que seguir esta lista de comandos desde una terminal de PowerShell (IMPORTANTE).
+(Suponiendo que nos encontramos en $:/flower_shop_app)
+1. python -m venv environment
+2. .\environment\Scripts\activate
+3. python -m pip install --upgrade pip
+4. cd database/client
+5. pip install *.whl
+6. cd ../..
+7. pip install -r requirements.txt
+8. Cerrar Visual Studio Code
+9. Asegurarse que en el archivo de configuración ./source/config.py sean el usuario y contraseña correctos. (Recomiendo que sea root-root respectivamente)
+10. python .\source\app.py
+11. Acceder a la aplicación desde localhost:5000
+
+---
+
 ### Funcionalidades Relevantes 🌱
 
 La aplicación incluye las siguientes funcionalidades:
