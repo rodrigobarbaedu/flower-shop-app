@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,500;1,500&family=Roboto:wght@500&family=Tilt+Neon&family=Young+Serif&display=swap');
+
+/* Basic */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Tilt Neon;
+    font-size: 16px;
+
+    color: #333;
+    background-color: #fff;
+}
+
+.base-custom {
+    background-color: #80c2af;
+}
+
+/* End - Basic */
+
+/* Main */
+.navbar-brand {
+    font-family: Tilt Neon;
+    font-weight: bolder;
+}
+
+.navbar-custom {
+    width: 95%;
+    margin: 0 auto;
+
+    font-family: Tilt Neon;
+    font-weight: 400;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.card-custom {
+    width: 95%;
+    height: 50%;
+    margin: 0 auto;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.card-header-custom {
+    width: auto;
+    height: 400px;
+
+    background-image: url(https://1.bp.blogspot.com/-QP8nPIMsfP8/U6Xm1jL4DwI/AAAAAAAABFY/KjQyjI5KBck/s1600/jardin+mas+hermoso+del+mundo+4.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.card-body-custom,
+.card-footer-custom {
+    font-family: Tilt Neon;
+}
+
+/* End - Main */

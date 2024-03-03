@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block css_sheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-users.css') }}">
+
+<!-- Data Tables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+<!-- Data Tables CSS -->
+
+<!-- Query -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Query -->
+
+<!-- Data Tables JS -->
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<!-- Data Tables JS -->
+{% endblock %}
+
+{% block subtitle %} Usuarios - Insertar Usuarios {% endblock %}
+
+{% block content %}
+
+<!-- Notificaciones -->
+<section>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show mt-3 m-auto" role="alert" style="width: 95%;">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+</section>
+<!-- Notificaciones -->
+
+<section>
+    <!-- Formulario de Insertar Usuario -->
+    <div class="container-input-custom">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-user"></i> - Insertar Usuario</i></h1>
+        <div class="row">
+            <div class="col-md-12">
+                <form id="product-form" action="/users/add" method="POST">
+                    <div class="form-group mt-3">
+                        <label for="">Usuario:</label>
+                        <input type="text" class="form-control" id="" name="usernameInput" value="{{ usernameField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Contraseña:</label>
+                        <input type="text" class="form-control" id="" name="passwordInput" value="{{ passwordField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Nombre:</label>
+                        <input type="text" class="form-control" id="" name="firstnameInput" value="{{ firstnameField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Apellido:</label>
+                        <input type="text" class="form-control" id="" name="lastnameInput" value="{{ lastnameField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Correo Electrónico:</label>
+                        <input type="email" class="form-control" id="" name="emailInput" value="{{ emailField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Dirección:</label>
+                        <input type="text" class="form-control" id="" name="addressInput" value="{{ addressField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Teléfono:</label>
+                        <input type="number" class="form-control" id="" name="phoneInput" value="{{ phoneField }}"
+                            required>
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Tipo (Usuario)</label>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Cliente" checked>
+                            <label class="form-check-label" for="opcion1">Cliente</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Administrador">
+                            <label class="form-check-label" for="opcion2">Administrador</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Formulario de Insertar Usuario -->
+</section>
+
+<Section>
+    <!-- Lista de Usuarios -->
+    <div class="container-output-custom mt-3 mb-3">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-table-list" style="color: #80c2af;"></i> - Lista de Usuarios</h1>
+        <div class="table-responsive">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered align-middle text-center" id="users-table">
+                        <thead>
+                            <tr>
+                                <th>Identificador</th>
+                                <th>Usuario</th>
+                                <th>Contraseña</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo Electrónico</th>
+                                <th>Dirección</th>
+                                <th>Teléfono</th>
+                                <th>Tipo (Usuario)</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user[0] }}</td>
+                                <td>{{ user[1] }}</td>
+                                <td>{{ user[2] }}</td>
+                                <td>{{ user[3] }}</td>
+                                <td>{{ user[4] }}</td>
+                                <td>{{ user[5] }}</td>
+                                <td>{{ user[6] }}</td>
+                                <td>{{ user[7] }}</td>
+                                <td>{{ "Cliente" if user[8] == 0 else "Administrador" }}</td>
+                                <td>
+                                    <a class="btn btn-success" href="{{ url_for('edit_user', id=user[0])}}"><i
+                                            class="fa-solid fa-pen-to-square"></i></a>
+                                    <a class="btn btn-danger" href="{{ url_for('delete_user', id=user[0])}}"><i
+                                            class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Lista de Usuarios -->
+</Section>
+
+{% endblock %}
+
+{% block js_scripts %}
+<script src="{{ url_for('static', filename='js/script-users.js') }}"></script>
+{% endblock %}

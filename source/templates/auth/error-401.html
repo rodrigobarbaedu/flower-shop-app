@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flora Vibrante - Error 401</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-error.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/flower-logo.svg') }}" type="image/svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body>
+
+    <!-- Error 401 -->
+    <section class="vh-100 base-custom">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card-custom shadow-2-strong">
+                        <div class="card-body p-5 text-center">
+                            <img class="mb-3" src="{{ url_for('static', filename='img/flower-error.svg') }}" alt="" srcset="">
+                            <h1>Error 401</h1>
+                            <p>¡Ups! La página que buscas no se encuentra en nuestro jardín o no has iniciado sesión.
+                                Parece que deseas entrar a un jardín que no te corresponde. Pienso que deberías regresar.
+                            </p>
+                            <a class="btn btn-success btn-md" href="{{ url_for('login') }}">Regresar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Error 401 -->
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
