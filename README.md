@@ -1,6 +1,30 @@
-# Proyecto de Aplicación Flask: Flora Vibrante 🌷
+# (Main) Proyecto de Aplicación Flask: Flora Vibrante 🌷
 
 Este proyecto consiste en una aplicación de gestión de ventas y compras para una florería llamada 'Flora Vibrante'. La aplicación está desarrollada utilizando el framework Flask de Python y establece una comunicación con una base de datos para almacenar y recuperar información relevante.
+
+---
+
+### Etiquetas para Commits :label:
+
+Las siguientes etiquetas se utilizarán en los mensajes de commit en GitHub para indicar la naturaleza de los cambios realizados:
+
+- **Update:** Se utiliza cuando se actualiza o modifica un archivo existente.
+- **Create:** Se utiliza al crear un nuevo archivo.
+- **Delete:** Se utiliza al eliminar un archivo.
+- **Fix:** Para correcciones de errores.
+- **Refactor:** Para cambios en el código que no alteran su funcionalidad pero mejoran su estructura o legibilidad.
+- **Merge:** Para commits de fusión de ramas.
+- **Document:** Para cambios relacionados con la documentación.
+
+### Ejemplos de Uso:
+
+- `Update: Actualizar el estilo del botón de inicio de sesión.`
+- `Create: Agregar archivo README.md con instrucciones de instalación.`
+- `Delete: Eliminar archivo de configuración obsoleto.`
+- `Fix: Corregir error de ortografía en el archivo de documentación.`
+- `Refactor: Simplificar la lógica de la función de validación de formularios.`
+- `Merge: Fusionar cambios de la rama de desarrollo.`
+- `Document: Agregar comentarios explicativos al código.`
 
 ---
 
@@ -21,8 +45,9 @@ Estando dentro de la carpeta del proyecto una vez descargado, tenemos que seguir
 7. pip install -r requirements.txt
 8. Cerrar Visual Studio Code
 9. Asegurarse que en el archivo de configuración ./source/config.py sean el usuario y contraseña correctos. (Recomiendo que sea root-root respectivamente)
-10. python .\source\app.py
-11. Acceder a la aplicación desde localhost:5000
+10. Conectarse a 'localhost' en Workbench e importar base de datos ubicada en '/database/dumps'.
+11. python .\source\app.py
+12. Acceder a la aplicación desde localhost:5000
 
 ---
 
