@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `flower_shop` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `flower_shop`;
--- MySQL dump 10.13  Distrib 8.0.32, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: flower_shop
 -- ------------------------------------------------------
--- Server version	8.0.35
+-- Server version	8.0.36
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -44,7 +44,6 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,5,1,'2023-11-25 04:36:58'),(1,1,6,1,'2023-11-25 04:36:58'),(2,1,7,1,'2023-11-25 04:37:04'),(2,1,8,1,'2023-11-25 04:37:04'),(3,1,9,1,'2023-11-25 04:37:12'),(3,1,12,1,'2023-11-25 04:37:12'),(4,1,5,1,'2023-11-25 04:37:20'),(4,1,10,1,'2023-11-25 04:37:20'),(5,2,5,1,'2023-11-25 07:20:07'),(5,2,6,1,'2023-11-25 07:20:07'),(6,2,6,1,'2023-11-25 07:20:19'),(6,2,7,1,'2023-11-25 07:20:19'),(6,2,10,1,'2023-11-25 07:20:19'),(6,2,12,1,'2023-11-25 07:20:19'),(6,2,15,1,'2023-11-25 07:20:19'),(7,2,5,1,'2023-11-25 07:20:26'),(7,2,6,6,'2023-11-25 07:20:26'),(8,4,5,1,'2023-11-25 07:52:48'),(8,4,6,1,'2023-11-25 07:52:48'),(9,4,5,1,'2023-11-25 08:07:05'),(10,1,5,1,'2023-11-25 19:20:51'),(10,1,6,3,'2023-11-25 19:20:51'),(11,5,5,1,'2023-11-25 21:02:34'),(11,5,6,2,'2023-11-25 21:02:34'),(11,5,7,1,'2023-11-25 21:02:34'),(11,5,12,1,'2023-11-25 21:02:34'),(12,1,5,1,'2023-11-26 03:03:12'),(12,1,6,2,'2023-11-26 03:03:12'),(12,1,10,6,'2023-11-26 03:03:12'),(12,1,12,1,'2023-11-26 03:03:12'),(12,1,21,1,'2023-11-26 03:03:12'),(13,6,5,1,'2023-11-26 03:07:13'),(13,6,6,1,'2023-11-26 03:07:13'),(13,6,7,1,'2023-11-26 03:07:13'),(13,6,8,1,'2023-11-26 03:07:13');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,10 +58,12 @@ CREATE TABLE `products` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int NOT NULL DEFAULT '0',
+  `alert_quantity` int NOT NULL DEFAULT '5',
   `price` decimal(10,2) NOT NULL,
   `url_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +72,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (5,'Rosa Roja','Rosa roja hermosa',19.99,'https://pngimg.com/d/rose_PNG66997.png'),(6,'Girasol Brillante','Girasol amarillo vibrante',7.50,'https://i.pinimg.com/originals/2c/60/08/2c6008df9a93efb8426e3b9c5b140c67.png'),(7,'Lirio Blanco','Lirio blanco elegante',9.75,'https://static.vecteezy.com/system/resources/previews/014/033/615/non_2x/white-lily-flower-free-png.png'),(8,'Tulipán Rosado','Tulipán rosado encantador',6.99,'https://static.vecteezy.com/system/resources/previews/022/966/093/non_2x/pink-tulip-flower-png.png'),(9,'Margarita Blanca','Margarita blanca radiante',5.50,'https://static.vecteezy.com/system/resources/thumbnails/024/955/450/small/daisy-flower-isolated-on-background-with-generative-ai-png.png'),(10,'Orquídea Púrpura','Orquídea púrpura exótica',12.25,'https://static.vecteezy.com/system/resources/previews/028/152/942/non_2x/ai-generated-orchids-and-bouquet-of-orchids-purple-flowers-translucent-background-free-png.png'),(11,'Caléndula Amarilla','Caléndula amarilla alegre',4.75,'https://www.boithermal.com/wp-content/uploads/2020/05/calendula-300x291-1.png'),(12,'Rosa Rosada','Rosa rosada intensa',7.99,'https://i.pinimg.com/originals/52/9f/1c/529f1cb2dc9ab763792bdcb7aba2975d.png'),(13,'Amapola Naranja','Amapola naranja vibrante',3.50,'https://cdn.pixabay.com/photo/2020/05/26/01/18/flowers-poppy-5220932_1280.png'),(14,'Dalia Rosa','Dalia rosa encantadora',9.99,'https://cdn.pixabay.com/photo/2016/11/19/00/55/dahlia-1837549_1280.png'),(15,'Gerbera Amarilla','Gerbera amarilla brillante',6.25,'https://static.vecteezy.com/system/resources/previews/020/974/417/original/yellow-gerbera-flower-isolated-with-clipping-path-png.png'),(16,'Mimosa Blanca','Mimosa blanca suave',8.50,'https://static.vecteezy.com/system/resources/previews/009/887/179/original/white-flower-free-png.png'),(17,'Peonía Rosa','Peonía rosa elegante',11.75,'https://static.vecteezy.com/system/resources/previews/008/848/166/non_2x/pink-peony-flower-transparency-background-floral-object-png.png'),(18,'Crísantemo Amarillo','Crísantemo amarillo radiante',5.99,'https://png.pngtree.com/png-clipart/20230227/original/pngtree-chrysanthemum-flowers-png-image_8966693.png'),(19,'Hortensia Azul','Hortensia azul encantadora',10.50,'https://cdn.pixabay.com/photo/2017/11/26/23/07/flower-2980200_1280.png'),(21,'Ranúnculo Rojo','Ranúnculo rojo intenso',7.75,''),(22,'Tulipán Amarillo','Tulipán amarillo radiante',6.50,''),(23,'Violeta Morada','Violeta morada suave',3.99,''),(24,'Crisantemo Blanco','Crisantemo blanco elegante',8.25,''),(25,'Rosa Rojo Especial','Rosa roja que es especial',20.00,' https://pngimg.com/d/rose_PNG66997.png');
+INSERT INTO `products` VALUES (1,'Rosa Roja','Rosa roja hermosa',10,5,8.99,'https://www.floristeriajazmin.com/imagenes/productos/rosa_roja.jpg'),(2,'Girasol Brillante','Girasol amarillo vibrante',10,5,7.50,'https://www.floristeriajazmin.com/imagenes/productos/girasol_brillante.jpg'),(3,'Lirio Blanco','Lirio blanco elegante',10,5,9.75,'https://www.floristeriajazmin.com/imagenes/productos/lirio_blanco.jpg'),(4,'Tulipán Rosado','Tulipán rosado encantador',10,5,6.99,'https://www.floristeriajazmin.com/imagenes/productos/tulipan_rosado.jpg'),(5,'Margarita Blanca','Margarita blanca radiante',10,5,5.50,'https://www.floristeriajazmin.com/imagenes/productos/margarita_blanca.jpg'),(6,'Orquídea Púrpura','Orquídea púrpura exótica',10,5,12.25,'https://www.floristeriajazmin.com/imagenes/productos/orquidea_purpura.jpg'),(7,'Caléndula Amarilla','Caléndula amarilla alegre',10,5,4.75,'https://www.floristeriajazmin.com/imagenes/productos/calendula_amarilla.jpg'),(8,'Clavel Rojo','Clavel rojo intenso',10,5,7.99,'https://www.floristeriajazmin.com/imagenes/productos/clavel_rojo.jpg'),(9,'Amapola Naranja','Amapola naranja vibrante',10,5,3.50,'https://www.floristeriajazmin.com/imagenes/productos/amapola_naranja.jpg'),(10,'Dalia Rosa','Dalia rosa encantadora',10,5,9.99,'https://www.floristeriajazmin.com/imagenes/productos/dalia_rosa.jpg'),(11,'Gerbera Amarilla','Gerbera amarilla brillante',10,5,6.25,'https://www.floristeriajazmin.com/imagenes/productos/gerbera_amarilla.jpg'),(12,'Mimosa Blanca','Mimosa blanca suave',10,5,8.50,'https://www.floristeriajazmin.com/imagenes/productos/mimosa_blanca.jpg'),(13,'Peonía Rosa','Peonía rosa elegante',10,5,11.75,'https://www.floristeriajazmin.com/imagenes/productos/peonia_rosa.jpg'),(14,'Crísantemo Amarillo','Crísantemo amarillo radiante',10,5,5.99,'https://www.floristeriajazmin.com/imagenes/productos/crisantemo_amarillo.jpg'),(15,'Hortensia Azul','Hortensia azul encantadora',10,5,10.50,'https://www.floristeriajazmin.com/imagenes/productos/hortensia_azul.jpg'),(16,'Narciso Amarillo','Narciso amarillo brillante',10,5,4.25,'https://www.floristeriajazmin.com/imagenes/productos/narciso_amarillo.jpg'),(17,'Ranúnculo Rojo','Ranúnculo rojo intenso',10,5,7.75,'https://www.floristeriajazmin.com/imagenes/productos/ranunculo_rojo.jpg'),(18,'Tulipán Amarillo','Tulipán amarillo radiante',10,5,6.50,'https://www.floristeriajazmin.com/imagenes/productos/tulipan_amarillo.jpg'),(19,'Violeta Morada','Violeta morada suave',10,5,3.99,'https://www.floristeriajazmin.com/imagenes/productos/violeta_morada.jpg'),(20,'Crisantemo Blanco','Crisantemo blanco elegante',10,5,8.25,'https://www.floristeriajazmin.com/imagenes/productos/crisantemo_blanco.jpg');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,7 +93,7 @@ CREATE TABLE `shopping_cart` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -120,9 +121,11 @@ CREATE TABLE `users` (
   `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `physical_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_time` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_time` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_type` tinyint NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +134,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'administrador-1','90b1b286043f1b7612e423c74608f5ea2f676340507f0b67219b20d09fc4777b','John','Doe','johndoe@mail.com','Calle 1 # 2-3','1234567890',1),(2,'administrador-2','bba86a1e179dc69b2ff4b91306a1004a38c8eb8a280947ad858cfbd1af70bbf4','Anna','Collins','annacollins@mail.com','Calle 2 # 2-3','1234567890',1),(3,'administrador-3','10cdef74485b2f8af66409fdafe6cb0b39815acd2bd5d102a09877895eceb5dc','Peter','Smith','petersmith@mail.com','Calle 3 # 2-3','1234567890',1),(4,'cliente-1','999f4eb93a79165a3f568902753bd4c3c92fccb6e4745937863eb819078c3ecc','Jane','Doe','janedoe@mail.com','Calle 1 # 2-3','1234567890',1),(5,'cliente-2','31ce17b096bb61e6976a7187ecb1a0e30f7355390093f9eb4a697ce9051d6e50','Mary','Collins','marycollins@mail.com','Calle 2 # 2-3','1234567890',0),(6,'cliente-3','01ceff5f630bbf2d783dd3fdfe2cdb5ae7149f12e50bc0e849f4aedd224b3652','Robert','Smith','robertsmith@mail.com','Calle 3 # 2-3','1234567890',0),(7,'cliente-4','67b08fa8c9e06c7950004159d0033bb7207204ac501e050d19f2d82f2a6c1e84','Conny','Roberts','connyroberts@mail.com','Calle 4 # 2-3','1234567890',0),(9,'rodrigobarba-1','2c7a6a63edbaff0e1c9b05d9651a46d6b60da9f9b30e3dfdb26127cc44e11f22','Rodrigo','Barba','rodrigobarba@mail.com','Calle 6 # 2-3','1234567890',0);
+INSERT INTO `users` VALUES (1,'administrador-1','90b1b286043f1b7612e423c74608f5ea2f676340507f0b67219b20d09fc4777b','John','Doe','johndoe@mail.com','Calle 1 # 2-3','1234567890','07:00','15:00',1),(2,'administrador-2','bba86a1e179dc69b2ff4b91306a1004a38c8eb8a280947ad858cfbd1af70bbf4','Anna','Collins','annacollins@mail.com','Calle 2 # 2-3','1234567890','07:00','15:00',1),(3,'administrador-3','10cdef74485b2f8af66409fdafe6cb0b39815acd2bd5d102a09877895eceb5dc','Peter','Smith','petersmith@mail.com','Calle 3 # 2-3','1234567890','07:00','15:00',1),(4,'cliente-1','999f4eb93a79165a3f568902753bd4c3c92fccb6e4745937863eb819078c3ecc','Jane','Doe','janedoe@mail.com','Calle 1 # 2-3','1234567890','07:00','15:00',0),(5,'cliente-2','31ce17b096bb61e6976a7187ecb1a0e30f7355390093f9eb4a697ce9051d6e50','Mary','Collins','marycollins@mail.com','Calle 2 # 2-3','1234567890','07:00','15:00',0),(6,'cliente-3','01ceff5f630bbf2d783dd3fdfe2cdb5ae7149f12e50bc0e849f4aedd224b3652','Robert','Smith','robertsmith@mail.com','Calle 3 # 2-3','1234567890','07:00','15:00',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,6 +183,8 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_product`(
     IN p_name VARCHAR(255),
     IN p_description VARCHAR(255),
+    IN p_quantity INT,
+    IN p_alert_quantity INT,
     IN p_price DECIMAL(10,2),
     IN p_url_image VARCHAR(255)
 )
@@ -202,8 +207,8 @@ BEGIN
     END IF;
 
     -- Insertar el nuevo producto.
-    INSERT INTO products (name, description, price, url_image)
-    VALUES (p_name, p_description, p_price, p_url_image);
+    INSERT INTO products (name, description, quantity, alert_quantity, price, url_image)
+    VALUES (p_name, p_description, p_quantity, p_alert_quantity, p_price, p_url_image);
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -270,6 +275,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_add_user`(
     IN p_email VARCHAR(50),
     IN p_physical_address VARCHAR(255),
     IN p_phone VARCHAR(20),
+    IN p_start_time VARCHAR(30),
+    IN p_end_time VARCHAR(30),
     IN p_user_type TINYINT
 )
 BEGIN
@@ -293,8 +300,50 @@ BEGIN
     END IF;
 
     -- Insertar el nuevo usuario.
-    INSERT INTO users (username, password, first_name, last_name, email, physical_address, phone, user_type)
-    VALUES (p_username, hashed_password, p_first_name, p_last_name, p_email, p_physical_address, p_phone, p_user_type);
+    INSERT INTO users (username, password, first_name, last_name, email, physical_address, phone, start_time, end_time, user_type)
+    VALUES (p_username, hashed_password, p_first_name, p_last_name, p_email, p_physical_address, p_phone, p_start_time, p_end_time, p_user_type);
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_buy_product` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_buy_product`(
+    IN p_id SMALLINT UNSIGNED,
+    IN p_quantity INT
+)
+BEGIN
+    DECLARE product_quantity INT;
+
+    -- Verificar si el producto existe.
+    SELECT quantity INTO product_quantity FROM products WHERE id = p_id;
+    
+    -- Manejar la excepción de producto no encontrado.
+    IF product_quantity IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: Producto no encontrado.';
+    END IF;
+
+    -- Verificar si hay suficiente cantidad del producto.
+    IF product_quantity < p_quantity THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: No hay suficiente cantidad del producto.';
+    END IF;
+
+    -- Actualizar la cantidad del producto.
+    UPDATE products
+    SET quantity = product_quantity - p_quantity
+    WHERE id = p_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -381,6 +430,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_edit_product`(
     IN p_id SMALLINT UNSIGNED,
     IN p_name VARCHAR(255),
     IN p_description VARCHAR(255),
+    IN p_quantity INT,
+    IN p_alert_quantity INT,
     IN p_price DECIMAL(10,2),
     IN p_url_image VARCHAR(255)
 )
@@ -395,7 +446,7 @@ BEGIN
 
     -- Actualizar el producto.
     UPDATE products
-    SET name = p_name, description = p_description, price = p_price, url_image = p_url_image
+    SET name = p_name, description = p_description, quantity = p_quantity, alert_quantity = p_alert_quantity, price = p_price, url_image = p_url_image
     WHERE id = p_id;
 END ;;
 DELIMITER ;
@@ -422,6 +473,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_edit_user`(
     IN p_email VARCHAR(50),
     IN p_physical_address VARCHAR(255),
     IN p_phone VARCHAR(20),
+    IN p_start_time VARCHAR(30),
+    IN p_end_time VARCHAR(30),
     IN p_user_type TINYINT
 )
 BEGIN
@@ -437,32 +490,8 @@ BEGIN
 
     -- Actualizar el usuario.
     UPDATE users
-    SET username = p_username, password = hashed_password, first_name = p_first_name, last_name = p_last_name, email = p_email, physical_address = p_physical_address, phone = p_phone, user_type = p_user_type
+    SET username = p_username, password = hashed_password, first_name = p_first_name, last_name = p_last_name, email = p_email, physical_address = p_physical_address, phone = p_phone, start_time = p_start_time, end_time = p_end_time, user_type = p_user_type
     WHERE id = p_id;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_get_best_sales` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_best_sales`()
-BEGIN
-    SELECT o.id, o.created_at, SUM(p.price * o.quantity) AS total_price
-    FROM orders AS o
-    INNER JOIN products AS p ON o.product_id = p.id
-    GROUP BY o.id, o.created_at
-    ORDER BY total_price DESC
-    LIMIT 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -769,27 +798,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_get_total_sales` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_total_sales`()
-BEGIN
-    SELECT SUM(p.price * o.quantity) AS total_price
-    FROM orders AS o
-    INNER JOIN products AS p ON o.product_id = p.id;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_get_users` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -832,30 +840,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 DROP PROCEDURE IF EXISTS `sp_get_worst_sales` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_worst_sales`()
-BEGIN
-    SELECT o.id, o.created_at, SUM(p.price * o.quantity) AS total_price
-    FROM orders AS o
-    INNER JOIN products AS p ON o.product_id = p.id
-    GROUP BY o.id, o.created_at
-    ORDER BY total_price ASC
-    LIMIT 1;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_remove_from_shopping_cart` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -873,6 +857,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_remove_from_shopping_cart`(
 BEGIN
     -- Eliminar un producto del carrito de compras.
     DELETE FROM shopping_cart WHERE user_id = p_user_id AND id = p_product_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_reorder_product_alert` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_reorder_product_alert`()
+BEGIN
+    -- Obtener los productos que están por debajo de la cantidad de alerta.
+    SELECT id, name FROM products WHERE quantity < alert_quantity;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -899,7 +903,7 @@ BEGIN
     FROM flower_shop.users
 	WHERE username = p_username COLLATE utf8mb4_unicode_ci;
 	IF stored_password IS NOT NULL AND stored_password = SHA2(p_plain_text_password, 256) THEN
-		SELECT id, username, stored_password, first_name, last_name, email, physical_address, phone, user_type
+		SELECT id, username, stored_password, first_name, last_name, email, physical_address, phone, start_time, end_time, user_type
         FROM flower_shop.users
 		WHERE username = p_username COLLATE utf8mb4_unicode_ci;
 	ELSE
@@ -921,4 +925,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-11-25 23:04:08
+-- Dump completed on 2024-03-11 13:14:45

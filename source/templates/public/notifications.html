@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block css_sheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-dashboard.css') }}">
+{% endblock %}
+
+{% block subtitle %} Dashboard {% endblock %}
+
+{% block content %}
+<section>
+    <div class="container-fluid mt-3">
+        {% if get_count_notifications > 0 %}
+            {% for notification in notifications %}
+            <!-- Toast Container -->
+            <div class="" style="">
+                <div id="toast" class="toast show w-75 m-auto text-center mt-3">
+                  <div class="toast-header">
+                    <strong class="me-auto">Aviso</strong>
+                    <small>Ahora</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                  </div>
+                  <div class="toast-body">
+                    El producto '{{ notification['name'] }}' con identificador {{ notification['id'] }} se está acabando. Restablezca el stock.
+                    <a href="{{ url_for('products') }}" class="link m-2">Ir a productos</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+        {% else %}
+            <!-- Toast Container -->
+            <div class="" style="">
+              <div id="toast" class="toast show w-75 m-auto text-center mt-3">
+                <div class="toast-header">
+                  <strong class="me-auto">Enhorabuena</strong>
+                  <small>Ahora</small>
+                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                  <b>Vaya... parece que no tienes notificaciones pendientes. ¡Sigue así!</b>
+                </div>
+              </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block js_scripts %}
+<script src="{{ url_for('static', filename='js/script-dashboard.js') }}"></script>
+{% endblock %}

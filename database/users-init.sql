@@ -13,6 +13,8 @@ CREATE TABLE flower_shop.users
     email varchar(50) NOT NULL,
     physical_address varchar(255) NOT NULL,
     phone varchar(20),
+    start_time varchar(30),
+    end_time varchar(30) NULL,
     user_type tinyint NOT NULL,
     PRIMARY KEY (id)
 )   ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -38,6 +40,8 @@ CREATE PROCEDURE sp_add_user
     IN p_email VARCHAR(50),
     IN p_physical_address VARCHAR(255),
     IN p_phone VARCHAR(20),
+    IN p_start_time VARCHAR(30),
+    IN p_end_time VARCHAR(30),
     IN p_user_type TINYINT
 )
 BEGIN
@@ -61,8 +65,8 @@ BEGIN
     END IF;
 
     -- Insertar el nuevo usuario.
-    INSERT INTO users (username, password, first_name, last_name, email, physical_address, phone, user_type)
-    VALUES (p_username, hashed_password, p_first_name, p_last_name, p_email, p_physical_address, p_phone, p_user_type);
+    INSERT INTO users (username, password, first_name, last_name, email, physical_address, phone, start_time, end_time, user_type)
+    VALUES (p_username, hashed_password, p_first_name, p_last_name, p_email, p_physical_address, p_phone, p_start_time, p_end_time, p_user_type);
 END //
 DELIMITER ;
 /* Procedimiento Almacenado 'add_user' */
@@ -80,6 +84,8 @@ CREATE PROCEDURE sp_edit_user
     IN p_email VARCHAR(50),
     IN p_physical_address VARCHAR(255),
     IN p_phone VARCHAR(20),
+    IN p_start_time VARCHAR(30),
+    IN p_end_time VARCHAR(30),
     IN p_user_type TINYINT
 )
 BEGIN
@@ -95,7 +101,7 @@ BEGIN
 
     -- Actualizar el usuario.
     UPDATE users
-    SET username = p_username, password = hashed_password, first_name = p_first_name, last_name = p_last_name, email = p_email, physical_address = p_physical_address, phone = p_phone, user_type = p_user_type
+    SET username = p_username, password = hashed_password, first_name = p_first_name, last_name = p_last_name, email = p_email, physical_address = p_physical_address, phone = p_phone, start_time = p_start_time, end_time = p_end_time, user_type = p_user_type
     WHERE id = p_id;
 END //
 DELIMITER ;
@@ -129,7 +135,7 @@ BEGIN
     FROM flower_shop.users
 	WHERE username = p_username COLLATE utf8mb4_unicode_ci;
 	IF stored_password IS NOT NULL AND stored_password = SHA2(p_plain_text_password, 256) THEN
-		SELECT id, username, stored_password, first_name, last_name, email, physical_address, phone, user_type
+		SELECT id, username, stored_password, first_name, last_name, email, physical_address, phone, start_time, end_time, user_type
         FROM flower_shop.users
 		WHERE username = p_username COLLATE utf8mb4_unicode_ci;
 	ELSE
@@ -171,15 +177,15 @@ DELIMITER ;
 /* ***** Inserciones - 'users' ***** */
 
 /* Usuarios Tipo 'Administrador' */
-CALL sp_add_user("administrador-1", "admin-1", "John", "Doe", "johndoe@mail.com", "Calle 1 # 2-3", "1234567890", 1);
-CALL sp_add_user("administrador-2", "admin-2", "Anna", "Collins", "annacollins@mail.com", "Calle 2 # 2-3", "1234567890", 1);
-CALL sp_add_user("administrador-3", "admin-3", "Peter", "Smith", "petersmith@mail.com", "Calle 3 # 2-3", "1234567890", 1);
+CALL sp_add_user("administrador-1", "admin-1", "John", "Doe", "johndoe@mail.com", "Calle 1 # 2-3", "1234567890", "07:00", "15:00", 1);
+CALL sp_add_user("administrador-2", "admin-2", "Anna", "Collins", "annacollins@mail.com", "Calle 2 # 2-3", "1234567890", "07:00", "15:00", 1);
+CALL sp_add_user("administrador-3", "admin-3", "Peter", "Smith", "petersmith@mail.com", "Calle 3 # 2-3", "1234567890", "07:00", "15:00", 1);
 /* Usuarios Tipo 'Administrador' */
 
 /* Usuarios Tipo 'Cliente' */
-CALL sp_add_user("cliente-1", "cliente-1", "Jane", "Doe", "janedoe@mail.com", "Calle 1 # 2-3", "1234567890", 0);
-CALL sp_add_user("cliente-2", "cliente-2", "Mary", "Collins", "marycollins@mail.com", "Calle 2 # 2-3", "1234567890", 0);
-CALL sp_add_user("cliente-3", "cliente-3", "Robert", "Smith", "robertsmith@mail.com", "Calle 3 # 2-3", "1234567890", 0);
+CALL sp_add_user("cliente-1", "cliente-1", "Jane", "Doe", "janedoe@mail.com", "Calle 1 # 2-3", "1234567890", "07:00", "15:00", 0);
+CALL sp_add_user("cliente-2", "cliente-2", "Mary", "Collins", "marycollins@mail.com", "Calle 2 # 2-3", "1234567890", "07:00", "15:00", 0);
+CALL sp_add_user("cliente-3", "cliente-3", "Robert", "Smith", "robertsmith@mail.com", "Calle 3 # 2-3", "1234567890", "07:00", "15:00", 0);
 /* Usuarios Tipo 'Cliente' */
 
 /* ***** Inserciones - 'users' ******/

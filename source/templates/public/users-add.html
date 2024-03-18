@@ -78,6 +78,16 @@
                         <input type="number" class="form-control" id="" name="phoneInput" value="{{ phoneField }}"
                             required>
                     </div>
+                    <div class="form-group mt-3">
+                        <label for="">Hora de Inicio:</label>
+                        <input type="time" class="form-control" id="" name="startTimeInput" value="{{ startTimeField }}"
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Hora de Fin:</label>
+                        <input type="time" class="form-control" id="" name="endTimeInput" value="{{ endTimeField }}"
+                            required>
+                    </div>
                     <div class="mt-3">
                         <label class="form-label">Tipo (Usuario)</label>
                         <div class="form-check">
@@ -87,6 +97,10 @@
                         <div class="form-check">
                             <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Administrador">
                             <label class="form-check-label" for="opcion2">Administrador</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Empleado">
+                            <label class="form-check-label" for="opcion3">Empleado</label>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success mt-3">Guardar</button>
@@ -115,6 +129,8 @@
                                 <th>Correo Electrónico</th>
                                 <th>Dirección</th>
                                 <th>Teléfono</th>
+                                <th>Hora de Inicio</th>
+                                <th>Hora de Fin</th>
                                 <th>Tipo (Usuario)</th>
                                 <th>Acciones</th>
                             </tr>
@@ -130,7 +146,9 @@
                                 <td>{{ user[5] }}</td>
                                 <td>{{ user[6] }}</td>
                                 <td>{{ user[7] }}</td>
-                                <td>{{ "Cliente" if user[8] == 0 else "Administrador" }}</td>
+                                <td>{{ user[8] }}</td>
+                                <td>{{ user[9] }}</td>
+                                <td>{{ "Cliente" if user[10] == 0 else "Administrador" if user[10] == 1 else "Empleado" }}</td>
                                 <td>
                                     <a class="btn btn-success" href="{{ url_for('edit_user', id=user[0])}}"><i
                                             class="fa-solid fa-pen-to-square"></i></a>

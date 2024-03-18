@@ -38,16 +38,18 @@
                                         <h4>Usuario</h4>
                                     </label>
                                     <input type="text" id="usernameInput" name="usernameInput"
-                                        class="form-control form-control-lg" />
+                                        class="form-control form-control-md" />
                                 </div>
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="passwordInput">
                                         <h4>Contraseña</h4>
                                     </label>
                                     <input type="password" id="passwordInput" name="passwordInput"
-                                        class="form-control form-control-lg" />
+                                        class="form-control form-control-md" />
                                 </div>
-                                <button class="btn btn-success btn-lg" type="submit">Iniciar Sesión</button>
+                                <button class="btn btn-success btn-md mt-2" type="submit">Iniciar Sesión</button> <br> <br>
+                                <a href="{{ url_for('signup') }}" class="link-success">¿No tienes cuenta? Regístrate
+                                    aquí</a>
                             </form>
                         </div>
                     </div>

@@ -21,8 +21,8 @@
             <nav class="navbar navbar-custom navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{{ url_for('dashboard') }}" style="color: #80C2AF;">
-                        <img src="{{ url_for('static', filename='img/flower-nav.svg') }}" alt="" width="30"
-                            height="24" class="mb-1">
+                        <img src="{{ url_for('static', filename='img/flower-nav.svg') }}" alt="" width="30" height="24"
+                            class="mb-1">
                         Flora Vibrante
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -33,9 +33,73 @@
                     <div class="navbar-collapse collapse" id="navbarNav">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             {% if current_user.user_type == 1 %}
-                            <li class="nav-item admin-link">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="admin-link" aria-current="page"
+                                    href="{{ url_for('products') }}">Productos</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link active" id="admin-link" aria-current="page"
                                     href="{{ url_for('users') }}">Usuarios</a>
+                            </li>
+                            {% endif %}
+                            {% if current_user.user_type == 2 %}
+                            <li class="nav-item">
+                                <a class="nav-link active" id="readonly-link" aria-current="page"
+                                    href="{{ url_for('productsReadOnly') }}">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="readonly-link" aria-current="page"
+                                    href="{{ url_for('usersReadOnly') }}">Usuarios</a>
+                            </li>
+                            {% endif %}
+                            {% if current_user.user_type == 0 %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ url_for('shop') }}">
+                                    Tienda&nbsp
+                                    <span class="badge rounded-pill" id="cart-badge" style="background-color: #80C2AF;">
+                                        {{ get_count_shopping_cart }}
+                                    </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if current_user.user_type == 1 or current_user.user_type == 2 %}
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ url_for('notifications') }}" style="">
+                                    {% if get_count_notifications > 0 %}
+                                    <style>
+                                        .image-container {
+                                            display: inline-block; /* Utilizamos flexbox */
+                                        }
+
+                                        .image-container img {
+                                            margin-right: -24px; /* Para que las imágenes se superpongan */
+                                        }
+
+                                        @keyframes fadeInOut {
+                                            0% { opacity: 0; }
+                                            50% { opacity: 1; }
+                                            100% { opacity: 0; }
+                                        }
+
+                                        #bell-ring {
+                                            animation: fadeInOut 1s ease-in-out infinite; /* Aplica la animación al elemento bell-ring */
+                                        }
+
+                                    </style>
+                                        <div class="image-container">
+                                            <img src="{{ url_for('static', filename='img/bell.svg') }}" alt="" width="20" height="20" class="mb-1">
+                                            <img id="bell-ring" src="{{ url_for('static', filename='img/bell-ring.svg') }}" alt="" width="20" height="20" class="mb-1">
+                                        </div>
+                                        &nbsp &nbsp &nbsp
+                                    {% else %}
+                                    <img src="{{ url_for('static', filename='img/bell.svg') }}" alt="" width="20"
+                                        height="20" class="mb-1">
+                                    {% endif %} 
+                                    <span class="badge rounded-pill" id="notifications-badge"
+                                        style="background-color: #80C2AF; display: inline-flex;">
+                                        {{ get_count_notifications }}
+                                    </span>
+                                </a>
                             </li>
                             {% endif %}
                             <li class="nav-item dropdown">

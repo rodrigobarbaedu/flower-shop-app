@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flora Vibrante - Recibo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style-receipt.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/flower-logo.svg') }}" type="image/svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/8562bd2fa0.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="base-custom">
+    <section>
+        <div class="text-center mt-5">
+            <img src="{{ url_for('static', filename='img/flower-logo.svg') }}" alt="" srcset="" width="80">
+        </div>
+
+        <!-- Encabezado -->
+        <div class="container container-header w-auto m-auto mt-3 shadow-md text-center">
+            <p>¡Gracias por su compra!</p>
+        </div>
+        <!-- Encabezado -->
+
+        <!-- Subencabezado -->
+        <div class="container container-subheader w-auto m-auto mt-3 ml-3 pt-3 shadow-md">
+            <div class="row row-1">
+                <div class="col-md-6 col-12">
+                    <span>Fecha</span>
+                    <p id="subheader-date">{{ order_information[4] }}</p>
+                </div>
+                <div class="col-md-6 col-12">
+                    <span>Número de orden</span>
+                    <p id="subheader-order-number">NTDS3023</p>
+                </div>
+            </div>
+            <div class="row row-2">
+                <div class="col-md-6 col-12">
+                    <span>Nombre Completo</span>
+                    <p id="subheader-fullname">{{ user_information.firstname }} {{ user_information.lastname }}</p>
+                </div>
+                <div class="col-md-6 col-12">
+                    <span>Dirección</span>
+                    <p id="subheader-address">{{ user_information.physical_address }}</p>
+                </div>
+            </div>
+        </div>
+        <!-- Subencabezado -->
+
+        <!-- Lista de productos -->
+        <div class="container container-product-list w-auto m-auto mt-3 pt-3 pb-3 shadow-md">
+            <div class="list-group">
+                <!-- Productos comprados -->
+                {% for product in shopping_cart %}
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action mb-3" aria-current="true">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ product[1] }}</h5>
+                            <h6>x&nbsp{{ product[2] }}</h6>
+                        </div>
+                        <h6 id="list-group-item-custom" class="mb-1">Precio Unitario: ${{
+                            product[3] }}</h6>
+                        <h6 id="list-group-item-custom">Precio Total: ${{ product[4]}}</h6>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Lista de productos -->
+
+        <!-- Pie de página -->
+        <div class="container container-footer w-auto m-auto mt-3 mb-3 pt-3 shadow-md text-center">
+            <div class="row">
+                <div id="footer-left" class="col-lg-4 col-md-12 col-12">
+                    <p class="">Fecha: <span id="footer-date">{{ order_information[4] }}</span></p>
+                </div>
+                <div id="footer-middle" class="col-lg-5 col-md-12 col-12">
+                    <p class="">Método de pago: <i class="fa-brands fa-cc-visa"></i> <span
+                            id="footer-payment-method">*1253</span></p>
+                </div>
+                <div id="footer-right" class="col-lg-3 col-md-12 col-12">
+                    <p>Total: $<span id="footer-total">{{ total_price }}</span></p>
+                </div>
+            </div>
+        </div>
+        <!-- Pie de página -->
+    </section>
+    
+    <section>
+        <!-- Botón de salida -->
+        <div class="container container-button w-auto m-auto mb-3 pt-3 shadow-md text-center">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-success">Regresar</a>
+        </div>
+        <!-- Botón de salida -->
+    </section>
+
+    <script src="{{ url_for('static', filename='js/script-receipt.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

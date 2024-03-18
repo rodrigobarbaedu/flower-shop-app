@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block css_sheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-products.css') }}">
+{% endblock %}
+
+{% block subtitle %} Catálogo - Eliminar Producto {% endblock %}
+
+{% block content %}
+
+<section>
+    <!-- Formulario de Eliminar Producto -->
+    <div class="container-input-custom">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-trash"></i> - Eliminar Producto</i></h1>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+                <h4 class="alert-heading">¡Advertencia!</h4>
+                <p>¿Estás seguro de eliminar el producto con identificador "{{ id }}"? Esta acción no se puede revertir.</p>
+                <form id="product-form" action="/products/delete/{{ id }}" method="POST">
+                    <button type="submit" class="btn btn-danger mt-1">Eliminar</button>
+                    <a href="{{ url_for('products') }}" class="btn btn-primary mt-1">Regresar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Formulario de Eliminar Producto -->
+</section>
+
+{% endblock %}
+
+{% block js_scripts %}
+<script src="{{ url_for('static', filename='js/script-products.js') }}"></script>
+{% endblock %}

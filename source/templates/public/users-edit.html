@@ -65,6 +65,16 @@
                         <input type="number" class="form-control" id="" name="phoneInput"
                             value="{{ user.phone  }}" required>
                     </div>
+                    <div class="form-group mt-3">
+                        <label for="">Hora de Inicio:</label>
+                        <input type="time" class="form-control" id="" name="startTimeInput"
+                            value="{{ user.start_time }}" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Hora de Fin:</label>
+                        <input type="time" class="form-control" id="" name="endTimeInput"
+                            value="{{ user.end_time }}" required>
+                    </div>
                     <div class="mt-3">
                         <label class="form-label">Tipo (Usuario)</label>
                         <div class="form-check">
@@ -74,6 +84,10 @@
                         <div class="form-check">
                             <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Administrador">
                             <label class="form-check-label" for="opcion2">Administrador</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Empleado">
+                            <label class="form-check-label" for="opcion3">Empleado</label>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-success mt-3">Actualizar</button>

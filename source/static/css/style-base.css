@@ -27,4 +27,9 @@ body {
     font-weight: bolder;
 }
 
+#readonly-link {
+    color: #80a2c2;
+    font-weight: bolder;
+}
+
 /* End - Main */

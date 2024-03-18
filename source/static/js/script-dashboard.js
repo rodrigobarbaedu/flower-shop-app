@@ -1,4 +1,4 @@
-/* Rodrigo Barba - Shinia */
+/* Rodrigo Barba - Shinia */ 
 
 /**
  * @fileoverview Documento de JavaScript para dashboard.html
