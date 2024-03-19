@@ -41,6 +41,10 @@
                                 <a class="nav-link active" id="admin-link" aria-current="page"
                                     href="{{ url_for('users') }}">Usuarios</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="admin-link" aria-current="page"
+                                    href="{{ url_for('sales') }}">Ventas</a>
+                            </li>
                             {% endif %}
                             {% if current_user.user_type == 2 %}
                             <li class="nav-item">
@@ -54,8 +58,12 @@
                             {% endif %}
                             {% if current_user.user_type == 0 %}
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="{{ url_for('shop') }}">
-                                    Tienda&nbsp
+                                <a class="nav-link active" id="" aria-current="page"
+                                    href="{{ url_for('shop') }}">Tienda</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ url_for('checkout') }}">
+                                    &nbsp
                                     <span class="badge rounded-pill" id="cart-badge" style="background-color: #80C2AF;">
                                         {{ get_count_shopping_cart }}
                                     </span>
@@ -102,6 +110,10 @@
                                 </a>
                             </li>
                             {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link active" id="" aria-current="page"
+                                    href="{{ url_for('about') }}">Acerca</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link active dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
