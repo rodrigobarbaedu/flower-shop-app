@@ -27,7 +27,7 @@
             <!-- Notificaciones -->
 
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-6">
+                <div class="col-12 col-md-12 col-lg-12">
                     <div class="col-products">
                         <div class="row container-inner-shop m-auto mt-4" id="productList">
                             <!-- Productos -->
@@ -56,66 +56,6 @@
                             {% endfor %}
                             <!-- Productos -->
                         </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-12 col-lg-6">
-                    <div class="col-checkout text-center">
-                        <!-- Carrito -->
-                        <div class="container">
-                            <section>
-                                <form action="/shop/receipt" method="POST">
-                                    <h1 class="pt-3"><i class="fa-solid fa-cart-shopping"></i> - Carrito Floral</h1>
-                                    <h4>Subtotal:
-                                        <span id="totalCheckout">
-                                            {% if get_total_price == None %}
-                                            $0
-                                            {% else %}
-                                            ${{ get_total_price }}
-                                            {% endif %}
-                                        </span>
-                                    </h4>
-                                    <hr class="m-auto mb-3 w-75">
-                                    <button class="btn btn-success btn-comprar mb-3" type="submit">Comprar - <i
-                                            class="fa-solid fa-bag-shopping"></i></button>
-                                    <a class="btn btn-danger btn-comprar mb-3"
-                                        href="{{ url_for('clear_shopping_cart') }}">Limpiar - <i
-                                            class="fa-solid fa-broom"></i></a>
-                                </form>
-                            </section>
-                            <hr class="m-auto mb-3 w-75">
-                            <div class="container-fluid" style="overflow: scroll;">
-                                {% if is_empty_shopping_cart == 1 %}
-                                <h4 class="text-center">
-                                    Carrito Floral se encuentra vacío.
-                                    Intenta agregar productos para comprar.
-                                </h4>
-                                <img class="mt-3" src="{{ url_for('static', filename='img/flower-error-2.svg') }}"
-                                    width="80" alt="">
-                                {% else %}
-                                {% for shopping_cart_product in shopping_cart_products %}
-                                <div class="list-group">
-                                    <a href="#" class="list-group-item list-group-item-action mb-3" aria-current="true">
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h5 class="mb-1">{{ shopping_cart_product[1] }}</h5>
-                                            <h6>x&nbsp{{ shopping_cart_product[2] }}</h6>
-                                        </div>
-                                        <h6 id="list-group-item-custom" class="mb-1">Precio Unitario: ${{
-                                            shopping_cart_product[3] }}</h6>
-                                        <div class="d-flex w-100 justify-content-between">
-                                            <h6 id="list-group-item-custom">Precio Total: ${{ shopping_cart_product[4]}}
-                                            </h6>
-                                            <form action="/shop/remove/{{ shopping_cart_product[0] }}" method="POST">
-                                                <button class="btn btn-danger btn-sm mb-2" type="submit"><i
-                                                        class="fa-solid fa-trash"></i></button>
-                                            </form>
-                                        </div>
-                                    </a>
-                                </div>
-                                {% endfor %}
-                                {% endif %}
-                            </div>
-                        </div>
-                        <!-- Carrito -->
                     </div>
                 </div>
             </div>
