@@ -60,3 +60,53 @@ class ModelOrders():
             return orders
         except Exception as ex:
             raise Exception(ex)
+
+    @classmethod
+    def get_essential_order_data(cls, db, id):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_get_essential_order_data(%s)", (id,))
+            orders = cursor.fetchall()
+            return orders
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def get_total_price_by_order(cls, db, id):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_get_total_price_by_order(%s)", (id,))
+            total_price = cursor.fetchone()
+            return total_price[0]
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def get_best_sales(cls, db):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_get_best_sales()")
+            best_sales = cursor.fetchall()
+            return best_sales
+        except Exception as ex:
+            raise Exception(ex)
+    
+    @classmethod
+    def get_worst_sales(cls, db):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_get_worst_sales()")
+            worst_sales = cursor.fetchall()
+            return worst_sales
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def get_total_sales(cls, db):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_get_total_sales()")
+            total_sales = cursor.fetchone()
+            return total_sales[0]
+        except Exception as ex:
+            raise Exception(ex)
