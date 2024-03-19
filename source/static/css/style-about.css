@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,500;1,500&family=Roboto:wght@500&family=Tilt+Neon&family=Young+Serif&display=swap');
+
+/* Basic */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Tilt Neon;
+    font-size: 16px;
+
+    color: #333;
+    background-color: #fff;
+}
+
+.base-custom {
+    background-image: url(https://th.bing.com/th/id/OIP.gbRr-YVFEIByl1EnZ2FJ4gHaEo?pid=ImgDet&w=2560&h=1600&rs=1);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+/* End - Basic */
+
+/* Main */
+.navbar-brand {
+    font-family: Tilt Neon;
+    font-weight: bolder;
+}
+
+.navbar-custom {
+    width: 95%;
+    margin: 0 auto;
+
+    font-family: Tilt Neon;
+    font-weight: 400;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.container-custom {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.inner-sketch {
+    height: 84vh;
+    
+    background-image: url(https://th.bing.com/th/id/R.591fc8268b8e692636e603f4bd10c61a?rik=rFsHMQ7iWAxFOg&pid=ImgRaw&r=0);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.inner-about {
+    height: 84vh;
+    overflow-y: scroll;
+
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.inner-about h2 {
+    font-family: Tilt Neon;
+    font-weight: 400;
+    color: #80C2AF;
+}
+
+.inner-text {
+    text-align: justify;
+    font-family: Tilt Neon;
+    font-weight: 500;
+    color: #333;
+}
+
+@media screen and (max-width: 768px) {
+    .inner-sketch {
+        height: 24vh;
+    }
+
+    .inner-about {
+        margin-top: 18px;
+        height: 57vh;
+    }
+}
+    
+/* End - Main */
