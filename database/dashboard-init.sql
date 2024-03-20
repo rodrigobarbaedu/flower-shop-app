@@ -35,9 +35,10 @@ DROP PROCEDURE IF EXISTS sp_get_total_sales;
 DELIMITER //
 CREATE PROCEDURE sp_get_total_sales()
 BEGIN
-    SELECT SUM(p.price * o.quantity) AS total_price
+    SELECT SUM(p.price * o.quantity) AS total_sales
     FROM orders AS o
-    INNER JOIN products AS p ON o.product_id = p.id;
+    INNER JOIN products AS p ON o.product_id = p.id
+    WHERE o.status_order = 'completed';
 END //
 DELIMITER ;
 /* Procedimiento Almacenado 'get_total_sales' */

@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS flower_shop.orders;
 CREATE TABLE flower_shop.orders
 (
     id SMALLINT UNSIGNED NOT NULL,
+    status_order ENUM('refunded', 'completed') NOT NULL DEFAULT 'completed',
     user_id SMALLINT UNSIGNED NOT NULL,
     product_id SMALLINT UNSIGNED NOT NULL,
     quantity SMALLINT UNSIGNED NOT NULL,
@@ -85,7 +86,7 @@ CREATE PROCEDURE sp_get_orders_by_user
     IN p_user_id SMALLINT UNSIGNED
 )
 BEGIN
-    SELECT o.id, u.id, u.username, u.first_name, u.last_name, 
+    SELECT o.id, u.id, u.username, u.first_name, u.last_name,
            SUM(o.quantity) AS quantity, 
            SUM(p.price * o.quantity) AS total, 
            MAX(o.created_at) AS created_at
@@ -103,17 +104,34 @@ DROP PROCEDURE IF EXISTS sp_get_orders;
 DELIMITER //
 CREATE PROCEDURE sp_get_orders()
 BEGIN
-    SELECT o.id, u.id, u.username, u.first_name, u.last_name, 
+    SELECT o.id, u.id AS user_id, u.username, u.first_name, u.last_name,
+           CASE 
+               WHEN o.status_order = 'completed' THEN 'Completado'
+               ELSE 'Reembolsado'
+           END AS status_order,
            SUM(o.quantity) AS quantity, 
            SUM(p.price * o.quantity) AS total, 
            MAX(o.created_at) AS created_at
     FROM orders AS o
     INNER JOIN users AS u ON o.user_id = u.id
-        INNER JOIN products AS p ON o.product_id = p.id
-    GROUP BY o.id, u.id, u.username;
+    INNER JOIN products AS p ON o.product_id = p.id
+    GROUP BY o.id, u.id, u.username, o.status_order;
 END //
 DELIMITER ;
 /* Procedimiento Almacenado 'get_orders' */
+
+/* Procedimiento Almacenado 'get_status_order' */
+DROP PROCEDURE IF EXISTS sp_get_status_order;
+DELIMITER //
+CREATE PROCEDURE sp_get_status_order
+(
+    IN p_order_id SMALLINT UNSIGNED
+)
+BEGIN
+    SELECT status_order FROM orders WHERE id = p_order_id;
+END //
+DELIMITER ;
+/* Procedimiento Almacenado 'get_status_order' */
 
 /* Procedimiento Almacenado 'get_essential_order_data' */
 DROP PROCEDURE IF EXISTS sp_get_essential_order_data;
@@ -147,4 +165,53 @@ END //
 DELIMITER ;
 /* Procedimiento Almacenado 'get_total_price_by_order' */
 
+/* Procedimiento Almacenado 'delete_order' */
+DROP PROCEDURE IF EXISTS sp_delete_order;
+DELIMITER //
+CREATE PROCEDURE sp_delete_order
+(
+    IN p_order_id SMALLINT UNSIGNED
+)
+BEGIN
+    DELETE FROM orders WHERE id = p_order_id;
+END //
+DELIMITER ;
+/* Procedimiento Almacenado 'delete_order' */
+
+/* Procedimiento Almacenado 'refund_order' */
+DROP PROCEDURE IF EXISTS sp_refund_order;
+DELIMITER //
+CREATE PROCEDURE sp_refund_order
+(
+    IN p_order_id SMALLINT UNSIGNED
+)
+BEGIN
+    UPDATE orders SET status_order = 'refunded' WHERE id = p_order_id;
+END //
+DELIMITER ;
+/* Procedimiento Almacenado 'refund_order' */
+
 /* ***** Procedimientos Almacenados - 'orders' ***** */
+
+/* ***** Insercion de Datos ***** */
+call sp_add_order(1, 1, 1, 1);
+call sp_add_order(2, 1, 2, 1);
+call sp_add_order(3, 1, 3, 1);
+call sp_add_order(4, 1, 4, 1);
+call sp_add_order(5, 1, 5, 1);
+call sp_add_order(6, 1, 6, 1);
+call sp_add_order(7, 1, 7, 1);
+call sp_add_order(8, 1, 8, 1);
+call sp_add_order(9, 1, 9, 1);
+call sp_add_order(10, 1, 10, 1);
+call sp_add_order(11, 1, 11, 1);
+call sp_add_order(12, 1, 12, 1);
+call sp_add_order(13, 1, 13, 1);
+call sp_add_order(14, 1, 14, 1);
+call sp_add_order(15, 1, 15, 1);
+call sp_add_order(16, 1, 16, 1);
+call sp_add_order(17, 1, 17, 1);
+call sp_add_order(18, 1, 18, 1);
+call sp_add_order(19, 1, 19, 1);
+call sp_add_order(20, 1, 20, 1);
+/* ***** Insercion de Datos ***** */
