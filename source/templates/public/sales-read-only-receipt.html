@@ -29,7 +29,7 @@
             <div class="row row-1">
                 <div class="col-md-6 col-12">
                     <span>Fecha</span>
-                    <p id="subheader-date">{{ order_information[5] }}</p> 
+                    <p id="subheader-date">{{ order_information[5] }}</p>
                 </div>
                 <div class="col-md-6 col-12">
                     <span>Número de orden</span>
@@ -87,11 +87,11 @@
         </div>
         <!-- Pie de página -->
     </section>
-    
+
     <section>
         <!-- Botón de salida e impresión -->
         <div class="container container-button w-auto m-auto mt-3 mb-3 pt-3 shadow-md text-center">
-            <a href="{{ url_for('receipts') }}" class="btn btn-success">Regresar</a>
+            <a href="{{ url_for('salesReadOnly') }}" class="btn btn-success">Regresar</a>
             <a href="#" class="btn btn-primary" onclick="window.print()">Imprimir</a>
         </div>
         <!-- Botón de salida e impresión -->

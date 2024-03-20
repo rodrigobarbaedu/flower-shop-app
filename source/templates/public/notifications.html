@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block css_sheets %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style-dashboard.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-notifications.css') }}">
 {% endblock %}
 
 {% block subtitle %} Dashboard {% endblock %}
@@ -12,8 +12,8 @@
         {% if get_count_notifications > 0 %}
             {% for notification in notifications %}
             <!-- Toast Container -->
-            <div class="" style="">
-                <div id="toast" class="toast show w-75 m-auto text-center mt-3">
+            <div class="font-tilt-neon" style="">
+                <div id="toast" class="toast show m-auto text-center mt-3 font-tilt-neon" style="width: 96%;">
                   <div class="toast-header">
                     <strong class="me-auto">Aviso</strong>
                     <small>Ahora</small>
@@ -29,7 +29,7 @@
         {% else %}
             <!-- Toast Container -->
             <div class="" style="">
-              <div id="toast" class="toast show w-75 m-auto text-center mt-3">
+              <div id="toast" class="toast show m-auto text-center mt-3 font-tilt-neon" style="width: 96%;">
                 <div class="toast-header">
                   <strong class="me-auto">Enhorabuena</strong>
                   <small>Ahora</small>

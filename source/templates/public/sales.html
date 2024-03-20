@@ -18,6 +18,21 @@
 
 {% block content %}
 
+<!-- Notificaciones -->
+<section>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert-warning alert-dismissible fade show mt-3 m-auto" role="alert" style="width: 95%;">
+      {{message}}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+</section>
+<!-- Notificaciones -->
+
 <section>
   <!-- Información Rápida -->
   <div class="container-dashboard-header mt-3 m-auto">
@@ -25,8 +40,8 @@
   </div>
   <div class="container-dashboard-custom mt-3 m-auto">
     <div class="row">
-      <div class="col-12 col-md-4 col-lg-4">
-        <div class="container-dashboard-item card text-white bg-success mb-3">
+      <div class="col-12 col-md-4 col-lg-4 mb-3">
+        <div class="container-dashboard-item card text-white bg-success mb-3 h-100">
           <div class="card-header"><i class="fa-solid fa-up-long"></i> - Mejor Venta</div>
           <div class="card-body">
             <h5 class="card-title">
@@ -39,8 +54,8 @@
           </div>
         </div>
       </div>
-      <div class="col-21 col-md-4 col-lg-4">
-        <div class="container-dashboard-item card text-white bg-warning mb-3">
+      <div class="col-21 col-md-4 col-lg-4 mb-3">
+        <div class="container-dashboard-item card text-white bg-warning mb-3 h-100">
           <div class="card-header"><i class="fa-solid fa-money-bill"></i> - Ganancias Totales</div>
           <div class="card-body">
             <h5 class="card-title">
@@ -53,8 +68,8 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4 col-lg-4">
-        <div class="container-dashboard-item card text-white bg-danger mb-3">
+      <div class="col-12 col-md-4 col-lg-4 mb-3">
+        <div class="container-dashboard-item card text-white bg-danger mb-3 h-100">
           <div class="card-header"><i class="fa-solid fa-down-long"></i> - Peor Venta</div>
           <div class="card-body">
             <h5 class="card-title">
@@ -88,10 +103,12 @@
                 <th>Usuario</th>
                 <th>Nombre</th>
                 <th>Apellidos</th>
+                <th>Estatus</th>
                 <th>Cantidad Total</th>
                 <th>Precio Total</th>
                 <th>Fecha (Compra)</th>
                 <th>Recibo (Compra)</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody id="product-list">
@@ -103,9 +120,17 @@
                 <td>{{ order[3] }}</td>
                 <td>{{ order[4] }}</td>
                 <td>{{ order[5] }}</td>
-                <td>$ {{ order[6] }}</td>
-                <td>{{ order[7] }}</td>
+                <td>{{ order[6] }}</td>
+                <td>$ {{ order[7] }}</td>
+                <td>{{ order[8] }}</td>
                 <td><a href="{{ url_for('sales_receipt', id=order[0]) }}">receipt_{{ order[0] }}</a></td>
+                <td>
+                  {% if order[5] == 'Completado' %}
+                  <a href="{{ url_for('refund_order', id=order[0]) }}" class="btn btn-warning btn-sm"><i
+                      class="fa-solid fa-money-bill-transfer"></i></a>
+                  {% endif %}
+                  <a href="{{ url_for('delete_order', id=order[0]) }}" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></a>
+                </td>
               </tr>
               {% endfor %}
             </tbody>

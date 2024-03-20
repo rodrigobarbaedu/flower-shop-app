@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% block css_sheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-shop.css') }}">
+
+<!-- Data Tables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
+<!-- Query -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Data Tables JS -->
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+<style>
+    .hover-image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .hover-image {
+        display: none;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px; /* ajusta el tamaño según lo necesites */
+        height: auto; /* ajusta el tamaño según lo necesites */
+        z-index: 1;
+    }
+
+    .hover-image-container:hover .hover-image {
+        display: block;
+    }
+</style>
+
+{% endblock %}
+
+{% block subtitle %} Tienda {% endblock %}
+
+{% block content %}
+
+<section class="mt-3">
+
+    <div class="container-fluid " style="width: 96%; height: 88vh;">
+
+        <!-- Notificaciones -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <!-- Notificaciones -->
+
+        <div class="row">
+            <div class="col-12 col-md-12 col-lg-6 mb-3">
+                <div class="container-fluid neo h-100" style="color: #80C2AF;">
+                    <div class="col-12 col-md-12 p-3 h-100">
+                        <h2 class="text-center pt-2"><i class="fa-solid fa-square-plus"></i> - Productos</h2>
+                        <hr class="border border-success border-2 w-75 mt-3 mb-3 m-auto">
+                        <div class="table-responsive h-100">
+                            <table class="table table-hover h-100" id="product-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Producto</th>
+                                        <th scope="col">Precio</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in products %}
+
+                                    <tr>
+                                        <td>
+                                            <div class="hover-image-container rounded">
+                                                {{ product.name }}
+                                                <img src="{{ product.url_image }}" class="hover-image rounded" alt="Imagen">
+                                            </div>
+                                        </td>
+                                        <td>{{ product.price }}</td>
+                                        <form action="/point-sale/add/{{ product.id }}" method="post">
+                                            <td>
+                                                <input type="number" class="form-control" id="quantity" name="quantity"
+                                                    min="1" max="10" value="1">
+                                            </td>
+                                            <td>
+                                                <button type="submit" class="btn btn-success"
+                                                    id="add-to-cart">Agregar</button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-6">
+                <div class="row h-auto">
+                    <div class="col-12 col-md-12">
+                        <div class="container-fluid neo">
+                            <section class="text-center" style="color: #80C2AF;">
+                                <form action="/point-sale/receipt" method="POST">
+                                    <h2 class="pt-4"><i class="fa-solid fa-cart-shopping"></i> - Carrito Floral</h2>
+                                    <h4>Subtotal:
+                                        <span id="totalCheckout">
+                                            {% if get_total_price == None %}
+                                            $0
+                                            {% else %}
+                                            ${{ get_total_price }}
+                                            {% endif %}
+                                        </span>
+                                    </h4>
+                                    
+                                    <div class="containter-fluid m-auto mt-4" style="width: 95%;">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="floatingInput"
+                                                        placeholder="Nombre" name="name" required>
+                                                    <label for="floatingInput">Nombre</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="floatingInput"
+                                                        placeholder="Apellido" name="lastname" required>
+                                                    <label for="floatingInput">Apellido</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="border border-success border-2 w-75 mt-3 mb-4 m-auto">
+                                    <button class="btn btn-success btn-comprar mb-3" type="submit">Comprar - <i
+                                            class="fa-solid fa-bag-shopping"></i></button>
+                                    <a class="btn btn-danger btn-comprar mb-3"
+                                        href="{{ url_for('clear_shopping_cart') }}">Limpiar - <i
+                                            class="fa-solid fa-broom"></i></a>
+                                </form>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-12 mt-3 mb-3">
+                        <div class="container-fluid neo" style="height: 48vh; overflow: scroll;">
+                            <section class="text-center p-3" style="color: #80C2AF;">
+                                <div class="container-fluid h-auto" style="height: max-content;">
+                                    {% if is_empty_shopping_cart == 1 %}
+                                    <h4 class="text-center">
+                                        Carrito Floral se encuentra vacío.
+                                        Intenta agregar productos para comprar.
+                                    </h4>
+                                    <img class="mt-3" src="{{ url_for('static', filename='img/flower-error-2.svg') }}"
+                                        width="80" alt="">
+                                    {% else %}
+                                    {% for shopping_cart_product in shopping_cart_products %}
+                                    <div class="list-group">
+                                        <a href="#" class="list-group-item list-group-item-action mb-3"
+                                            aria-current="true">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">{{ shopping_cart_product[1] }}</h5>
+                                                <h6>x&nbsp{{ shopping_cart_product[2] }}</h6>
+                                            </div>
+                                            <h6 id="list-group-item-custom" class="mb-1">Precio Unitario: ${{
+                                                shopping_cart_product[3] }}</h6>
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h6 id="list-group-item-custom">Precio Total: ${{
+                                                    shopping_cart_product[4]}}
+                                                </h6>
+                                                <form action="/point-sale/remove/{{ shopping_cart_product[0] }}"
+                                                    method="POST">
+                                                    <button class="btn btn-danger btn-sm mb-2" type="submit"><i
+                                                            class="fa-solid fa-trash"></i></button>
+                                                </form>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+</div>
+</div>
+
+{% endblock %}
+
+{% block js_scripts %}
+<script src="{{ url_for('static', filename='js/script-shop.js') }}"></script>
+{% endblock %}

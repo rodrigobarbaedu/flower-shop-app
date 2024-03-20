@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block css_sheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-users.css') }}">
+<style>
+    #submit-btn {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block subtitle %} Ventas - Eliminar Orden {% endblock %}
+
+{% block content %}
+
+<section>
+    <div class="container-input-custom">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-trash"></i> - Eliminar Orden</i></h1>
+        <div class="row">
+            <div class="col-md-12">
+                <hr>
+                <h4 class="alert-heading">¡Advertencia!</h4>
+                <p>¿Estás seguro de eliminar la orden con identificador "{{ id }}"? Esta acción no se puede revertir.</p> <hr>
+                <p>Para eliminar la orden espera 10 segundos para que el botón de "Eliminar" aparezca.</p>
+                <form id="product-form" action="/sales/delete/{{ id }}" method="POST">
+                    <a href="{{ url_for('sales') }}" class="btn btn-primary mt-1">Regresar</a>
+                    <button type="submit" class="btn btn-danger mt-1" id="submit-btn">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block js_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+    $("#submit-btn").hide();
+    
+    setTimeout(function() {
+        $("#submit-btn").show();
+    }, 10000);
+    
+    var pressTimer;
+    
+    $("#submit-btn").mouseup(function(){
+        clearTimeout(pressTimer);
+        return false;
+    }).mousedown(function(){
+        pressTimer = setTimeout(function() {
+            $('#product-form').submit();
+        }, 5000);
+        return false; 
+    });
+});
+</script>
+<script src="{{ url_for('static', filename='js/script-users.js') }}"></script>
+{% endblock %}
