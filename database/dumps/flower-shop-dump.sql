@@ -26,6 +26,7 @@ DROP TABLE IF EXISTS `orders`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `orders` (
   `id` smallint unsigned NOT NULL,
+  `status_order` enum('refunded','completed') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'completed',
   `user_id` smallint unsigned NOT NULL,
   `product_id` smallint unsigned NOT NULL,
   `quantity` smallint unsigned NOT NULL,
@@ -44,6 +45,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+INSERT INTO `orders` VALUES (1,'completed',1,1,1,'2024-03-20 05:37:18'),(2,'completed',1,2,1,'2024-03-20 05:37:18'),(3,'completed',1,3,1,'2024-03-20 05:37:18'),(4,'completed',1,4,1,'2024-03-20 05:37:18'),(5,'completed',1,5,1,'2024-03-20 05:37:18'),(6,'completed',1,6,1,'2024-03-20 05:37:18'),(7,'completed',1,7,1,'2024-03-20 05:37:18'),(8,'completed',1,8,1,'2024-03-20 05:37:18'),(9,'completed',1,9,1,'2024-03-20 05:37:18'),(10,'completed',1,10,1,'2024-03-20 05:37:18'),(11,'completed',1,11,1,'2024-03-20 05:37:18'),(12,'completed',1,12,1,'2024-03-20 05:37:18'),(13,'completed',1,13,1,'2024-03-20 05:37:18'),(14,'completed',1,14,1,'2024-03-20 05:37:18'),(15,'completed',1,15,1,'2024-03-20 05:37:18'),(16,'completed',1,16,1,'2024-03-20 05:37:18'),(17,'completed',1,17,1,'2024-03-20 05:37:18'),(18,'completed',1,18,1,'2024-03-20 05:37:18'),(19,'completed',1,19,1,'2024-03-20 05:37:18'),(20,'completed',1,20,1,'2024-03-20 05:37:18');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,12 +58,12 @@ DROP TABLE IF EXISTS `products`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `products` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `quantity` int NOT NULL DEFAULT '0',
   `alert_quantity` int NOT NULL DEFAULT '5',
   `price` decimal(10,2) NOT NULL,
-  `url_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `url_image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -72,7 +74,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Rosa Roja','Rosa roja hermosa',10,5,8.99,'https://www.floristeriajazmin.com/imagenes/productos/rosa_roja.jpg'),(2,'Girasol Brillante','Girasol amarillo vibrante',10,5,7.50,'https://www.floristeriajazmin.com/imagenes/productos/girasol_brillante.jpg'),(3,'Lirio Blanco','Lirio blanco elegante',10,5,9.75,'https://www.floristeriajazmin.com/imagenes/productos/lirio_blanco.jpg'),(4,'Tulipán Rosado','Tulipán rosado encantador',10,5,6.99,'https://www.floristeriajazmin.com/imagenes/productos/tulipan_rosado.jpg'),(5,'Margarita Blanca','Margarita blanca radiante',10,5,5.50,'https://www.floristeriajazmin.com/imagenes/productos/margarita_blanca.jpg'),(6,'Orquídea Púrpura','Orquídea púrpura exótica',10,5,12.25,'https://www.floristeriajazmin.com/imagenes/productos/orquidea_purpura.jpg'),(7,'Caléndula Amarilla','Caléndula amarilla alegre',10,5,4.75,'https://www.floristeriajazmin.com/imagenes/productos/calendula_amarilla.jpg'),(8,'Clavel Rojo','Clavel rojo intenso',10,5,7.99,'https://www.floristeriajazmin.com/imagenes/productos/clavel_rojo.jpg'),(9,'Amapola Naranja','Amapola naranja vibrante',10,5,3.50,'https://www.floristeriajazmin.com/imagenes/productos/amapola_naranja.jpg'),(10,'Dalia Rosa','Dalia rosa encantadora',10,5,9.99,'https://www.floristeriajazmin.com/imagenes/productos/dalia_rosa.jpg'),(11,'Gerbera Amarilla','Gerbera amarilla brillante',10,5,6.25,'https://www.floristeriajazmin.com/imagenes/productos/gerbera_amarilla.jpg'),(12,'Mimosa Blanca','Mimosa blanca suave',10,5,8.50,'https://www.floristeriajazmin.com/imagenes/productos/mimosa_blanca.jpg'),(13,'Peonía Rosa','Peonía rosa elegante',10,5,11.75,'https://www.floristeriajazmin.com/imagenes/productos/peonia_rosa.jpg'),(14,'Crísantemo Amarillo','Crísantemo amarillo radiante',10,5,5.99,'https://www.floristeriajazmin.com/imagenes/productos/crisantemo_amarillo.jpg'),(15,'Hortensia Azul','Hortensia azul encantadora',10,5,10.50,'https://www.floristeriajazmin.com/imagenes/productos/hortensia_azul.jpg'),(16,'Narciso Amarillo','Narciso amarillo brillante',10,5,4.25,'https://www.floristeriajazmin.com/imagenes/productos/narciso_amarillo.jpg'),(17,'Ranúnculo Rojo','Ranúnculo rojo intenso',10,5,7.75,'https://www.floristeriajazmin.com/imagenes/productos/ranunculo_rojo.jpg'),(18,'Tulipán Amarillo','Tulipán amarillo radiante',10,5,6.50,'https://www.floristeriajazmin.com/imagenes/productos/tulipan_amarillo.jpg'),(19,'Violeta Morada','Violeta morada suave',10,5,3.99,'https://www.floristeriajazmin.com/imagenes/productos/violeta_morada.jpg'),(20,'Crisantemo Blanco','Crisantemo blanco elegante',10,5,8.25,'https://www.floristeriajazmin.com/imagenes/productos/crisantemo_blanco.jpg');
+INSERT INTO `products` VALUES (1,'Rosa Roja','Rosa roja hermosa',6,5,8.99,'https://purepng.com/public/uploads/large/flower-2wq'),(2,'Girasol Brillante','Girasol amarillo vibrante',5,5,7.50,'https://www.floristeriajazmin.com/imagenes/productos/girasol_brillante.jpg'),(3,'Lirio Blanco','Lirio blanco elegante',9,5,9.75,'https://www.floristeriajazmin.com/imagenes/productos/lirio_blanco.jpg'),(4,'Tulipán Rosado','Tulipán rosado encantador',10,5,6.99,'https://www.floristeriajazmin.com/imagenes/productos/tulipan_rosado.jpg'),(5,'Margarita Blanca','Margarita blanca radiante',10,5,5.50,'https://www.floristeriajazmin.com/imagenes/productos/margarita_blanca.jpg'),(6,'Orquídea Púrpura','Orquídea púrpura exótica',10,5,12.25,'https://www.floristeriajazmin.com/imagenes/productos/orquidea_purpura.jpg'),(7,'Caléndula Amarilla','Caléndula amarilla alegre',7,5,4.75,'https://www.floristeriajazmin.com/imagenes/productos/calendula_amarilla.jpg'),(8,'Clavel Rojo','Clavel rojo intenso',10,5,7.99,'https://www.floristeriajazmin.com/imagenes/productos/clavel_rojo.jpg'),(9,'Amapola Naranja','Amapola naranja vibrante',7,5,3.50,'https://www.floristeriajazmin.com/imagenes/productos/amapola_naranja.jpg'),(10,'Dalia Rosa','Dalia rosa encantadora',9,5,9.99,'https://www.floristeriajazmin.com/imagenes/productos/dalia_rosa.jpg'),(11,'Gerbera Amarilla','Gerbera amarilla brillante',10,5,6.25,'https://www.floristeriajazmin.com/imagenes/productos/gerbera_amarilla.jpg'),(12,'Mimosa Blanca','Mimosa blanca suave',10,5,8.50,'https://www.floristeriajazmin.com/imagenes/productos/mimosa_blanca.jpg'),(13,'Peonía Rosa','Peonía rosa elegante',10,5,11.75,'https://www.floristeriajazmin.com/imagenes/productos/peonia_rosa.jpg'),(14,'Crísantemo Amarillo','Crísantemo amarillo radiante',9,5,5.99,'https://www.floristeriajazmin.com/imagenes/productos/crisantemo_amarillo.jpg'),(15,'Hortensia Azul','Hortensia azul encantadora',10,5,10.50,'https://www.floristeriajazmin.com/imagenes/productos/hortensia_azul.jpg'),(16,'Narciso Amarillo','Narciso amarillo brillante',10,5,4.25,'https://www.floristeriajazmin.com/imagenes/productos/narciso_amarillo.jpg'),(17,'Ranúnculo Rojo','Ranúnculo rojo intenso',10,5,7.75,'https://www.floristeriajazmin.com/imagenes/productos/ranunculo_rojo.jpg'),(18,'Tulipán Amarillo','Tulipán amarillo radiante',10,5,6.50,'https://www.floristeriajazmin.com/imagenes/productos/tulipan_amarillo.jpg'),(19,'Violeta Morada','Violeta morada suave',10,5,3.99,'https://www.floristeriajazmin.com/imagenes/productos/violeta_morada.jpg'),(20,'Crisantemo Blanco','Crisantemo blanco elegante',9,5,8.25,'https://www.floristeriajazmin.com/imagenes/productos/crisantemo_blanco.jpg');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +95,7 @@ CREATE TABLE `shopping_cart` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `shopping_cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `shopping_cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -114,15 +116,15 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` smallint unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` char(102) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `first_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `physical_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `start_time` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `end_time` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` char(102) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `physical_address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_time` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `end_time` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_type` tinyint NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -134,7 +136,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'administrador-1','90b1b286043f1b7612e423c74608f5ea2f676340507f0b67219b20d09fc4777b','John','Doe','johndoe@mail.com','Calle 1 # 2-3','1234567890','07:00','15:00',1),(2,'administrador-2','bba86a1e179dc69b2ff4b91306a1004a38c8eb8a280947ad858cfbd1af70bbf4','Anna','Collins','annacollins@mail.com','Calle 2 # 2-3','1234567890','07:00','15:00',1),(3,'administrador-3','10cdef74485b2f8af66409fdafe6cb0b39815acd2bd5d102a09877895eceb5dc','Peter','Smith','petersmith@mail.com','Calle 3 # 2-3','1234567890','07:00','15:00',1),(4,'cliente-1','999f4eb93a79165a3f568902753bd4c3c92fccb6e4745937863eb819078c3ecc','Jane','Doe','janedoe@mail.com','Calle 1 # 2-3','1234567890','07:00','15:00',0),(5,'cliente-2','31ce17b096bb61e6976a7187ecb1a0e30f7355390093f9eb4a697ce9051d6e50','Mary','Collins','marycollins@mail.com','Calle 2 # 2-3','1234567890','07:00','15:00',0),(6,'cliente-3','01ceff5f630bbf2d783dd3fdfe2cdb5ae7149f12e50bc0e849f4aedd224b3652','Robert','Smith','robertsmith@mail.com','Calle 3 # 2-3','1234567890','07:00','15:00',0);
+INSERT INTO `users` VALUES (1,'administrador-1','90b1b286043f1b7612e423c74608f5ea2f676340507f0b67219b20d09fc4777b','John','Doe','johndoe@mail.com','Calle 1 # 2-3','1234567890','07:00','15:00',1),(2,'administrador-2','bba86a1e179dc69b2ff4b91306a1004a38c8eb8a280947ad858cfbd1af70bbf4','Anna','Collins','annacollins@mail.com','Calle 2 # 2-3','1234567890','07:00','15:00',1),(3,'administrador-3','10cdef74485b2f8af66409fdafe6cb0b39815acd2bd5d102a09877895eceb5dc','Peter','Smith','petersmith@mail.com','Calle 3 # 2-3','1234567890','07:00','15:00',2),(4,'cliente-1','999f4eb93a79165a3f568902753bd4c3c92fccb6e4745937863eb819078c3ecc','Jane','Doe','janedoe@mail.com','Calle 1 # 2-3','1234567890','07:00','15:00',0),(5,'cliente-2','31ce17b096bb61e6976a7187ecb1a0e30f7355390093f9eb4a697ce9051d6e50','Mary','Collins','marycollins@mail.com','Calle 2 # 2-3','1234567890','07:00','15:00',0),(6,'cliente-3','01ceff5f630bbf2d783dd3fdfe2cdb5ae7149f12e50bc0e849f4aedd224b3652','Robert','Smith','robertsmith@mail.com','Calle 3 # 2-3','1234567890','07:00','15:00',0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,6 +374,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_delete_order` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_delete_order`(
+    IN p_order_id SMALLINT UNSIGNED
+)
+BEGIN
+    DELETE FROM orders WHERE id = p_order_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_delete_product` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -492,6 +515,30 @@ BEGIN
     UPDATE users
     SET username = p_username, password = hashed_password, first_name = p_first_name, last_name = p_last_name, email = p_email, physical_address = p_physical_address, phone = p_phone, start_time = p_start_time, end_time = p_end_time, user_type = p_user_type
     WHERE id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_get_best_sales` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_best_sales`()
+BEGIN
+    SELECT o.id, o.created_at, SUM(p.price * o.quantity) AS total_price
+    FROM orders AS o
+    INNER JOIN products AS p ON o.product_id = p.id
+    GROUP BY o.id, o.created_at
+    ORDER BY total_price DESC
+    LIMIT 1;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -621,14 +668,18 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_orders`()
 BEGIN
-    SELECT o.id, u.id, u.username, u.first_name, u.last_name, 
+    SELECT o.id, u.id AS user_id, u.username, u.first_name, u.last_name,
+           CASE 
+               WHEN o.status_order = 'completed' THEN 'Completado'
+               ELSE 'Reembolsado'
+           END AS status_order,
            SUM(o.quantity) AS quantity, 
            SUM(p.price * o.quantity) AS total, 
            MAX(o.created_at) AS created_at
     FROM orders AS o
     INNER JOIN users AS u ON o.user_id = u.id
-        INNER JOIN products AS p ON o.product_id = p.id
-    GROUP BY o.id, u.id, u.username;
+    INNER JOIN products AS p ON o.product_id = p.id
+    GROUP BY o.id, u.id, u.username, o.status_order;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -671,7 +722,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_orders_by_user`(
     IN p_user_id SMALLINT UNSIGNED
 )
 BEGIN
-    SELECT o.id, u.id, u.username, u.first_name, u.last_name, 
+    SELECT o.id, u.id, u.username, u.first_name, u.last_name,
            SUM(o.quantity) AS quantity, 
            SUM(p.price * o.quantity) AS total, 
            MAX(o.created_at) AS created_at
@@ -750,6 +801,27 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_get_status_order` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_status_order`(
+    IN p_order_id SMALLINT UNSIGNED
+)
+BEGIN
+    SELECT status_order FROM orders WHERE id = p_order_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_get_total_price` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -798,6 +870,28 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_get_total_sales` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_total_sales`()
+BEGIN
+    SELECT SUM(p.price * o.quantity) AS total_sales
+    FROM orders AS o
+    INNER JOIN products AS p ON o.product_id = p.id
+    WHERE o.status_order = 'completed';
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sp_get_users` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -834,6 +928,51 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_users_by_id`(
 BEGIN
     -- Obtener un usuario por su id.
     SELECT * FROM users WHERE id = p_id;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_get_worst_sales` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_get_worst_sales`()
+BEGIN
+    SELECT o.id, o.created_at, SUM(p.price * o.quantity) AS total_price
+    FROM orders AS o
+    INNER JOIN products AS p ON o.product_id = p.id
+    GROUP BY o.id, o.created_at
+    ORDER BY total_price ASC
+    LIMIT 1;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sp_refund_order` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_refund_order`(
+    IN p_order_id SMALLINT UNSIGNED
+)
+BEGIN
+    UPDATE orders SET status_order = 'refunded' WHERE id = p_order_id;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -925,4 +1064,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-11 13:14:45
+-- Dump completed on 2024-03-19 22:38:36
