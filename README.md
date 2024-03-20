@@ -1,4 +1,4 @@
-# (Main) Proyecto de Aplicación Flask: Flora Vibrante 🌷
+# (Versión 2) Proyecto de Aplicación Flask: Flora Vibrante 🌷
 
 Este proyecto consiste en una aplicación de gestión de ventas y compras para una florería llamada 'Flora Vibrante'. La aplicación está desarrollada utilizando el framework Flask de Python y establece una comunicación con una base de datos para almacenar y recuperar información relevante.
 
