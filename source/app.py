@@ -626,6 +626,53 @@ def sales():
         raise Exception(e)
 # Sales Route
 
+# Sales Read Only Route
+@app.route("/sales-readonly")
+@login_required
+@employee_required
+
+def salesReadOnly():
+    
+        try:
+            get_best_sale = ModelOrders.get_best_sales(db)
+            get_worst_sale = ModelOrders.get_worst_sales(db)
+            get_total_sales = ModelOrders.get_total_sales(db)
+    
+            return render_template (
+                "public/sales-employee.html",
+                get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+                get_count_notifications=get_count_notifications(),
+                orders=ModelOrders.get_orders(db),
+                total_sales=get_total_sales,
+                worst_sale=get_worst_sale,
+                best_sale=get_best_sale
+            )
+        except Exception as e:
+            raise Exception(e)
+# Sales Read Only Route
+        
+# Sales Read Only Receipt Route
+@app.route("/sales-readonly/receipt/<int:id>")
+@login_required
+@employee_required
+
+def sales_read_only_receipt(id):
+    
+        essential_data = ModelOrders.get_essential_order_data(db, id)
+        get_orders_by_id = ModelOrders.get_orders_by_id(db, id)
+        get_users_by_id = ModelUsers.get_users_by_id(db, get_orders_by_id[2])
+        total_price = ModelOrders.get_total_price_by_order(db, id)
+    
+        return render_template (
+            "public/sales-read-only-receipt.html",
+            get_count_notifications=get_count_notifications(),
+            order_information=get_orders_by_id,
+            user_information=get_users_by_id,
+            shopping_cart=essential_data,
+            total_price=total_price
+        )
+# Sales Read Only Receipt Route
+
 # Sale Receipt Route
 @app.route("/sales/receipt/<int:id>")
 @login_required
@@ -635,17 +682,60 @@ def sales_receipt(id):
 
     essential_data = ModelOrders.get_essential_order_data(db, id)
     get_orders_by_id = ModelOrders.get_orders_by_id(db, id)
-    get_users_by_id = ModelUsers.get_users_by_id(db, get_orders_by_id[1])
+    get_users_by_id = ModelUsers.get_users_by_id(db, get_orders_by_id[2])
     total_price = ModelOrders.get_total_price_by_order(db, id)
 
     return render_template (
         "public/sales-receipt.html",
+        get_count_notifications=get_count_notifications(),
         order_information=get_orders_by_id,
         user_information=get_users_by_id,
         shopping_cart=essential_data,
         total_price=total_price
     )
 # Sale Receipt Route
+
+# Delete Order Route
+@app.route("/sales/delete/<int:id>", methods=["GET", "POST"])
+@login_required
+@admin_required
+
+def delete_order(id):
+    
+        if request.method == "POST":
+            ModelOrders.delete_order(db, id)
+    
+            flash("Orden eliminada correctamente.")
+            return redirect(url_for("sales"))
+        else:
+            return render_template (
+                "public/sales-delete.html",
+                get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+                get_count_notifications=get_count_notifications(),
+                id=id
+            )
+# Delete Order Route
+        
+# Refund Order Route
+@app.route("/sales/refund/<int:id>", methods=["GET", "POST"])
+@login_required
+@admin_required
+
+def refund_order(id):
+    
+        if request.method == "POST":
+            ModelOrders.refund_order(db, id)
+    
+            flash("Orden reembolsada correctamente.")
+            return redirect(url_for("sales"))
+        else:
+            return render_template (
+                "public/sales-refund.html",
+                get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+                get_count_notifications=get_count_notifications(),
+                id=id
+            )
+# Refund Order Route
 
 # ----- Sales -----
     
@@ -665,30 +755,104 @@ def is_empty_shopping_cart(user_id):
 # Is Empty Shopping Cart Function
 
 # Shop Route
-@app.route("/shop")
+@app.route("/point-sale")
 @login_required
 
-def shop():
+def point_sale():
     
     try:
         products = ModelProducts.get_products(db)
         shopping_cart_products = ModelShoppingCart.get_essential_data(db, current_user.id)
 
         return render_template (
-            "public/shop.html",
+            "public/shop-point-sale.html",
             get_total_price=ModelShoppingCart.get_total_price(db, current_user.id),
             get_count_shopping_cart=get_count_shopping_cart(current_user.id),
             is_empty_shopping_cart=is_empty_shopping_cart(current_user.id),
+            get_count_notifications=get_count_notifications(),
             shopping_cart_products=shopping_cart_products,
             products=products
         )
     except Exception as e:
         raise Exception(e)
 # Shop Route
+    
+# Shop Client Route
+@app.route("/shop-client")
+@login_required
+
+def shop_client():
+        
+        try:
+            products = ModelProducts.get_products(db)
+            shopping_cart_products = ModelShoppingCart.get_essential_data(db, current_user.id)
+    
+            return render_template (
+                "public/shop-client.html",
+                get_total_price=ModelShoppingCart.get_total_price(db, current_user.id),
+                get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+                is_empty_shopping_cart=is_empty_shopping_cart(current_user.id),
+                get_count_notifications=get_count_notifications(),
+                shopping_cart_products=shopping_cart_products,
+                products=products
+            )
+        except Exception as e:
+            raise Exception(e)
+# Shop Client Route
+        
+# Shop Add Client Route
+@app.route("/shop-client/add/<int:id>", methods=["GET", "POST"])
+@login_required
+
+def add_client(id):
+
+    if request.method == "POST":
+        shopping_cart = ShoppingCart (
+            0,
+            current_user.id,
+            id,
+            request.form["quantity"]
+        )
+
+        ModelShoppingCart.add_shopping_cart(db, shopping_cart)
+
+        flash("Producto agregado al carrito de compras correctamente.")
+        return redirect(url_for("shop_client"))
+    else:
+        return redirect(url_for("shop_client"))
+# Shop Add Client Route
+    
+# Shop Remove Client Route
+@app.route("/shop-client/remove/<int:id>", methods=["GET", "POST"])
+@login_required
+
+def remove_client(id):
+    
+        if request.method == "POST":
+            ModelShoppingCart.remove_from_shopping_cart(db, current_user.id, id)
+            
+            flash("Producto eliminado del carrito de compras correctamente.")
+            return redirect(url_for("shop_client"))
+        else:
+            return redirect(url_for("shop_client"))
+# Shop Remove Client Route
+
+# Shop Clear Client Route
+@app.route("/shop-client/clear")
+@login_required
+
+def clear_client():
+        
+            ModelShoppingCart.clear_shopping_cart(db, current_user.id)
+            
+            flash("Carrito de compras vaciado correctamente.")
+            return redirect(url_for("shop_client"))
+# Shop Clear Client Route
 
 # Add to Shopping Cart Route
-@app.route("/shop/add/<int:id>", methods=["GET", "POST"])
+@app.route("/point-sale/add/<int:id>", methods=["GET", "POST"])
 @login_required
+@employee_required
 
 def add_shopping_cart(id):
     
@@ -697,20 +861,21 @@ def add_shopping_cart(id):
             0,
             current_user.id,
             id,
-            request.form["quantityInput_%s" % id]
+            request.form["quantity"]
         )
 
         ModelShoppingCart.add_shopping_cart(db, shopping_cart)
 
         flash("Producto agregado al carrito de compras correctamente.")
-        return redirect(url_for("checkout"))
+        return redirect(url_for("point_sale"))
     else:
-        return redirect(url_for("checkout"))
+        return redirect(url_for("point_sale"))
 # Add to Shopping Cart Route
 
 # Remove from Shopping Cart Route
-@app.route("/shop/remove/<int:id>", methods=["GET", "POST"])
+@app.route("/point-sale/remove/<int:id>", methods=["GET", "POST"])
 @login_required
+@employee_required
 
 def remove_from_shopping_cart(id):
 
@@ -718,36 +883,23 @@ def remove_from_shopping_cart(id):
         ModelShoppingCart.remove_from_shopping_cart(db, current_user.id, id)
         
         flash("Producto eliminado del carrito de compras correctamente.")
-        return redirect(url_for("checkout"))
+        return redirect(url_for("point_sale"))
     else:
-        return redirect(url_for("checkout"))
+        return redirect(url_for("point_sale"))
 # Remove from Shopping Cart Route
 
 # Clear Shopping Cart Route
-@app.route("/shop/clear")
+@app.route("/point-sale/clear")
 @login_required
+@employee_required
 
 def clear_shopping_cart():
     
     ModelShoppingCart.clear_shopping_cart(db, current_user.id)
     
     flash("Carrito de compras vaciado correctamente.")
-    return redirect(url_for("checkout"))
+    return redirect(url_for("point_sale"))
 # Clear Shopping Cart Route
-
-# Checkout Route
-@app.route("/checkout")
-@login_required
-
-def checkout():
-    return render_template (
-        "public/shop.html",
-        get_total_price=ModelShoppingCart.get_total_price(db, current_user.id),
-        get_count_shopping_cart=get_count_shopping_cart(current_user.id),
-        is_empty_shopping_cart=is_empty_shopping_cart(current_user.id),
-        shopping_cart_products=shopping_cart_products
-    )
-# Checkout Route
 
 # ----- Shop -----
 
@@ -767,7 +919,7 @@ def is_empty_receipt():
 # is Empty Receipt Function
 
 # Receipt Route
-@app.route("/checkout/receipt", methods=["GET", "POST"])
+@app.route("/point-sale/receipt", methods=["GET", "POST"])
 @login_required
 
 def receipt():
@@ -775,7 +927,7 @@ def receipt():
     if request.method == "POST":
         if is_empty_shopping_cart(current_user.id):
             flash("No se puede generar una orden vacía.")
-            return redirect(url_for("checkout"))
+            return redirect(url_for("point_sale"))
         else:
             try:
                 essential_data = ModelShoppingCart.get_essential_data(db, current_user.id)
@@ -788,6 +940,7 @@ def receipt():
                 for product in shopping_cart:
                     order = Orders (
                         get_last_order_id,
+                        'completed', # 'completed' or 'pending payment'
                         current_user.id,
                         product[2],
                         product[3]
@@ -802,6 +955,7 @@ def receipt():
                 
                 return render_template (
                     "public/receipt.html",
+                    get_count_notifications=get_count_notifications(),
                     order_information=get_orders_by_id,
                     user_information=get_users_by_id,
                     shopping_cart=essential_data,
@@ -810,8 +964,57 @@ def receipt():
             except Exception as e:
                 raise Exception(e)
     else:
-        return redirect(url_for("checkout"))
+        return redirect(url_for("point_sale"))
 # Receipt Route
+    
+# Receipt Client Route
+@app.route("/shop-client/receipt", methods=["GET", "POST"])
+@login_required
+
+def shop_client_receipt():
+
+    if request.method == "POST":
+        if is_empty_shopping_cart(current_user.id):
+            flash("No se puede generar una orden vacía.")
+            return redirect(url_for("point_sale"))
+        else:
+            try:
+                essential_data = ModelShoppingCart.get_essential_data(db, current_user.id)
+                shopping_cart = ModelShoppingCart.get_shopping_cart(db, current_user.id)
+
+                get_total_price = ModelShoppingCart.get_total_price(db, current_user.id)
+                get_users_by_id = ModelUsers.get_users_by_id(db, current_user.id)       
+                get_last_order_id = ModelOrders.get_last_order_id(db)
+                
+                for product in shopping_cart:
+                    order = Orders (
+                        get_last_order_id,
+                        'completed', # 'completed' or 'pending payment'
+                        current_user.id,
+                        product[2],
+                        product[3]
+                    )
+                    
+                    ModelProducts.buy_product(db, product[2], product[3])
+
+                ModelOrders.add_order(db, order)
+                
+                get_orders_by_id = ModelOrders.get_orders_by_id(db, get_last_order_id)
+                ModelShoppingCart.clear_shopping_cart(db, current_user.id)
+                
+                return render_template (
+                    "public/receipt.html",
+                    get_count_notifications=get_count_notifications(),
+                    order_information=get_orders_by_id,
+                    user_information=get_users_by_id,
+                    shopping_cart=essential_data,
+                    total_price=get_total_price   
+                )
+            except Exception as e:
+                raise Exception(e)
+    else:
+        return redirect(url_for("shop_client"))
+# Receipt Client Route
 
 # Receipts Route
 @app.route("/receipts")
@@ -822,8 +1025,9 @@ def receipts():
     try:
         return render_template (
             "public/receipts.html",
-            get_count_shopping_cart=get_count_shopping_cart(current_user.id),
             orders_by_user=ModelOrders.get_orders_by_user(db, current_user.id),
+            get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+            get_count_notifications=get_count_notifications(),
             is_empty_receipt=is_empty_receipt()
         )
     except Exception as e:
@@ -838,13 +1042,14 @@ def receipts_order_by(id):
 
     essential_data = ModelOrders.get_essential_order_data(db, id)
     get_orders_by_id = ModelOrders.get_orders_by_id(db, id)
-    get_users_by_id = ModelUsers.get_users_by_id(db, get_orders_by_id[1])
+    get_users_by_id = ModelUsers.get_users_by_id(db, get_orders_by_id[2])
     total_price = ModelOrders.get_total_price_by_order(db, id)
 
     return render_template (
         "public/receipts-order-by.html",
-        user_information=get_users_by_id,
+        get_count_notifications=get_count_notifications(),
         order_information=get_orders_by_id,
+        user_information=get_users_by_id,
         shopping_cart=essential_data,
         total_price=total_price
     )
@@ -866,7 +1071,8 @@ def about():
 
     return render_template (
         "public/about.html",
-        get_count_shopping_cart=get_count_shopping_cart(current_user.id)
+        get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+        get_count_notifications=get_count_notifications()
     )
 # About Route
 
