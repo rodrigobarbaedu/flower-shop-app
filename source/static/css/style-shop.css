@@ -21,6 +21,13 @@ body {
     background-color: #80C2AF;
 }
 
+.neo {
+    background-color: #fff;
+    border-radius: 15px;
+
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
 /* End - Basic */
 
 /* Main */
@@ -101,7 +108,12 @@ body {
 }
 
 @media screen and (max-width: 991px) {
+    .col-shop-main {
+        height: 90vh;
+    }
+
     .col-products {
+        margin-top: 3vh;
         height: 90vh;
     }
 

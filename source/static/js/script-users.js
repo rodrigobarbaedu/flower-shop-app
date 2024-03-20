@@ -11,7 +11,6 @@ $(document).ready(function() {
         "language": {          // Se configura el idioma del plugin
             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
         },
-        "scrollX": "200px",
         "ordering": true,      // Habilita la ordenación
         "info": true,          // Muestra información sobre la paginación
         "lengthChange": true   // Permite cambiar el número de elementos mostrados por página
