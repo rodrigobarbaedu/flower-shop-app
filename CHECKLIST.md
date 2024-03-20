@@ -37,8 +37,8 @@
 # Backend 🐍 / Avance 18-03-24
 
 - [] **Tarea 1:** Crear Endpoints para Vista 'Checkout' y sus métodos.
-- [] **Tarea 2:** Implementar Endpoints para Vista 'Recibos' y sus métodos.
-- [] **Tarea 3:** Desarrollar Procedimientos Almacenados para Servicios SOAP para Panel Rápido y Tienda (Comprar Productos).
+- [✔️] **Tarea 2:** Implementar Endpoints para Vista 'Recibos' y sus métodos.
+- [✔️] **Tarea 3:** Desarrollar Procedimientos Almacenados para Servicios SOAP para Panel Rápido y Tienda (Comprar Productos).
 - [] **Tarea 4:** Implementar Procedimientos en el Servidor SOAP.
 - [] **Tarea 5:** Agregar Endpoint dedicado para Servicios Web.
 - [] **Tarea 6:** Crear Métodos Intermediarios para la comunicación con el Servidor SOAP y Aplicación NodeJS.
