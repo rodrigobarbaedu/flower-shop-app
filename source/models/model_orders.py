@@ -60,6 +60,24 @@ class ModelOrders():
             return orders
         except Exception as ex:
             raise Exception(ex)
+        
+    @classmethod
+    def delete_order(cls, db, id):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_delete_order(%s)", (id,))
+            db.connection.commit()
+        except Exception as ex:
+            raise Exception(ex)
+    
+    @classmethod
+    def refund_order(cls, db, id):
+        try:
+            cursor = db.connection.cursor()
+            cursor.execute("CALL sp_refund_order(%s)", (id,))
+            db.connection.commit()
+        except Exception as ex:
+            raise Exception(ex)
 
     @classmethod
     def get_essential_order_data(cls, db, id):
@@ -87,7 +105,10 @@ class ModelOrders():
             cursor = db.connection.cursor()
             cursor.execute("CALL sp_get_best_sales()")
             best_sales = cursor.fetchall()
-            return best_sales
+            if best_sales == () or best_sales == None:
+                return [[0, "No hay ventas", 0]]
+            else:
+                return best_sales
         except Exception as ex:
             raise Exception(ex)
     
@@ -97,7 +118,10 @@ class ModelOrders():
             cursor = db.connection.cursor()
             cursor.execute("CALL sp_get_worst_sales()")
             worst_sales = cursor.fetchall()
-            return worst_sales
+            if worst_sales == () or worst_sales == None:
+                return [[0, "No hay ventas", 0]]
+            else:
+                return worst_sales
         except Exception as ex:
             raise Exception(ex)
         
@@ -107,6 +131,9 @@ class ModelOrders():
             cursor = db.connection.cursor()
             cursor.execute("CALL sp_get_total_sales()")
             total_sales = cursor.fetchone()
-            return total_sales[0]
+            if total_sales == () or total_sales == None:
+                return 0
+            else:
+                return total_sales[0]
         except Exception as ex:
             raise Exception(ex)
