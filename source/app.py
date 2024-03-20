@@ -7,6 +7,7 @@ from flask import *
 # Flask Imports
 
 # Python Imports
+from suds.client import Client
 from functools import wraps
 from config import config
 # Python Imports
@@ -1077,7 +1078,25 @@ def about():
 # About Route
 
 # ----- About -----
-    
+
+
+
+
+
+# ----- Web Service -----
+@app.route("/webservice/get-orders", methods=["POST"])
+def get_orders():
+    try:
+        client = Client('http://localhost:5002/soap?wsdl')
+
+        result = client.service.get_orders()
+
+        return str(result)
+    except Exception as e:
+        return str(e)
+
+# ----- Web Service -----   
+
 
 
 
@@ -1086,6 +1105,6 @@ def about():
 
 if __name__ == '__main__':
     app.config.from_object(config['development'])
-    app.run()
+    app.run(port=5001, debug=True)
 
 # ----- Main -----
