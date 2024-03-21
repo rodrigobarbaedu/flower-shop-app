@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - my_network
+
+  flask_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5001"
+    volumes:
+      - .:/app
+    networks:
+      - my_network
+    depends_on:
+      - db
+
+networks:
+  my_network:
+
+volumes:
+  db_data:
