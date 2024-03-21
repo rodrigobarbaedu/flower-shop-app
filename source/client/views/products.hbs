@@ -1,0 +1,40 @@
+{{!-- Products View --}}
+<div class="container w-100 mt-3 mb-3">
+  <h1 class="mt-4 mb-3">Productos</h1>
+  <p>{{products.length}} productos disponibles.</p>
+  <div class="table-responsive" id="product-table">
+    <table class="table table-striped" id="myTable">
+      <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Cantidad de Alerta</th>
+          <th>Precio</th>
+          <th>URL de la Imagen</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+        <tr>
+          <td>{{this.[0]}}</td>
+          <td>{{this.[1]}}</td>
+          <td>{{this.[2]}}</td>
+          <td>{{this.[3]}}</td>
+          <td>{{this.[4]}}</td>
+          <td>{{this.[5]}}</td>
+          <td>{{this.[6]}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#myTable').DataTable();
+  });
+</script>
+{{!-- Products View --}}
