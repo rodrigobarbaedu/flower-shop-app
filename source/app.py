@@ -6,10 +6,17 @@ from flask_login import *
 from flask import *
 # Flask Imports
 
+# Spyne Imports
+from spyne import Application, rpc, ServiceBase, Integer, Unicode
+from spyne.server.wsgi import WsgiApplication
+from spyne.protocol.soap import Soap11
+# Spyne Imports
+
 # Python Imports
 from suds.client import Client
 from functools import wraps
 from config import config
+import threading
 # Python Imports
 
 # Models Imports
@@ -1083,19 +1090,42 @@ def about():
 
 
 
-# ----- Web Service -----
-@app.route("/webservice/get-orders", methods=["POST"])
+# ----- Web Services -----
+
+# Web Service Get Orders
+@app.route("/webservice/get-products", methods=["GET"])
 def get_orders():
     try:
-        client = Client('http://localhost:5002/soap?wsdl')
-
-        result = client.service.get_orders()
-
-        return str(result)
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.get_products()
+            return result
     except Exception as e:
         return str(e)
+class WebServiceGetProducts(ServiceBase):
+    @rpc(_returns=Unicode)
+    def get_products(self):
+        try:
+            with app.app_context():
+                products = ModelProducts.get_products(db)
+                product_list = []
+                for product in products:
+                    product_info = [
+                        product.id,
+                        product.name,
+                        product.description,
+                        product.quantity,
+                        product.alert_quantity,
+                        float(product.price),
+                        product.url_image
+                    ]
+                    product_list.append(product_info)
+                return str(product_list)
+        except Exception as ex:
+            return str(ex)
+# Web Service Get Orders
 
-# ----- Web Service -----   
+# ----- Web Services -----   
 
 
 
@@ -1103,8 +1133,29 @@ def get_orders():
 
 # ----- Main -----
 
-if __name__ == '__main__':
+# Run SOAP Server Function
+def run_soap_server():
+    from wsgiref.simple_server import make_server
+    soap_app = Application([WebServiceGetProducts], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
+    soap_wsgi_app = WsgiApplication(soap_app)
+
+    soap_server = make_server('localhost', 5002, soap_wsgi_app)
+    print("Iniciando servidor SOAP en http://localhost:5002/soap")
+    soap_server.serve_forever()
+# Run SOAP Server Function
+
+# Run Flask Server Function
+def run_flask_server():
+    print("Iniciando servidor Flask en http://localhost:5001")
     app.config.from_object(config['development'])
     app.run(port=5001, debug=True)
+# Run Flask Server Function
+
+# Create a thread to run the SOAP server and run the Flask server in the main thread
+if __name__ == '__main__':
+    soap_thread = threading.Thread(target=run_soap_server)
+    soap_thread.start()
+    run_flask_server()
+# Create a thread to run the SOAP server and run the Flask server in the main thread
 
 # ----- Main -----
