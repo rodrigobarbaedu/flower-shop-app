@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,500;1,500&family=Roboto:wght@500&family=Tilt+Neon&family=Young+Serif&display=swap');
+
+/* Basic */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Tilt Neon;
+    font-size: 16px;
+
+    color: #333;
+    background-color: #fff;
+}
+
+.base-custom {
+    color: white;
+    font-family: Tilt Neon;
+
+    background-color: #80C2AF;
+}
+
+.neo {
+    background-color: #fff;
+    border-radius: 15px;
+
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+/* End - Basic */
+
+/* Main */
+.navbar-brand {
+    font-family: Tilt Neon;
+    font-weight: bolder;
+}
+
+.navbar-custom {
+    width: 95%;
+    margin: 0 auto;
+
+    font-family: Tilt Neon;
+    font-weight: 400;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.blur {
+    filter: blur(15px);
+}
+
+.container-custom {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.container-inner-shop {
+    width: 95%;
+    margin: 0 auto;
+}
+
+.col-products {
+    height: 84vh;
+    overflow-y: scroll;
+
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.col-checkout {
+    height: 84vh;
+    overflow-y: scroll;
+
+    color: #80C2AF;
+
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.table-custom thead th {
+    font-family: Tilt Neon;
+    font-weight: 600;
+    color: #80C2AF;
+}
+
+.card-custom {
+    min-height: 500px;
+}
+
+.card-custom img {
+    width: 200px;
+    height: 200px;
+}
+
+.list-group-item-custom :hover {
+    background-color: #80C2AF;
+    color: #fff;
+}
+
+#list-group-item-custom {
+    font-weight: 600;
+    text-align: left;
+    color: #80C2AF;
+}
+
+@media screen and (max-width: 991px) {
+    .col-shop-main {
+        height: 90vh;
+    }
+
+    .col-products {
+        margin-top: 3vh;
+        height: 90vh;
+    }
+
+    .col-checkout {
+        min-height: 50vh;
+        margin-top: 18px;
+        margin-bottom: 18px;
+    }
+
+    .card-custom img {
+        height: 300px;
+    }
+}
+
+/* End - Main */

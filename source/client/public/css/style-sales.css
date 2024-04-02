@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,500;1,500&family=Roboto:wght@500&family=Tilt+Neon&family=Young+Serif&display=swap');
+
+/* Basic */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Tilt Neon;
+    font-size: 16px;
+
+    color: #333;
+    background-color: #fff;
+}
+
+.base-custom {
+    background-color: #80c2af;
+}
+
+/* End - Basic */
+
+/* Main */
+.navbar-brand {
+    font-family: Tilt Neon;
+    font-weight: bolder;
+}
+
+.navbar-custom {
+    width: 95%;
+    margin: 0 auto;
+
+    font-family: Tilt Neon;
+    font-weight: 400;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.container-dashboard-header {
+    width: 95%;
+    height: auto;
+    
+    font-family: Tilt Neon;
+    font-weight: 400;
+    color: #80c2af;
+
+    background-color: white;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.container-dashboard-custom {
+    width: 95%;
+    height: auto;
+
+    font-family: Tilt Neon;
+    font-weight: 400;
+}
+
+.container-dashboard-item {
+    height: 30vh;
+    background-color: white;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.container-output-custom {
+    width: 95%;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+
+    background-color: white;
+
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px 0px #5b5b5b;
+}
+
+.container-input-custom,
+.container-output-custom {
+    font-family: Tilt Neon;
+}
+
+.container-input-custom h1,
+.container-output-custom h1 {
+    color: #80c2af;
+    font-family: Tilt Neon;
+}
+
+.container-input-custom input {
+    border-color: #80c2af;
+}
+
+.container-output-custom thead > tr > th {
+    color: #80c2af;
+}
+
+/* End - Main */

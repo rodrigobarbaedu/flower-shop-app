@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,500;1,500&family=Roboto:wght@500&family=Tilt+Neon&family=Young+Serif&display=swap');
+
+/* Basic */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.5;
+
+    background-color: #80C2AF;
+}
+
+.base-custom {
+    color: white;
+    font-family: Tilt Neon;
+
+    background-color: #80C2AF;
+}
+
+/* End - Basic */
+
+/* Main */
+.card-custom img {
+    width: auto;
+    height: 50px;
+
+    color: white;
+}
+
+.card-custom h1 {
+    font-family: Tilt Neon;
+    font-weight: bold;
+}
+
+.card-custom {
+    color: white;
+    font-weight: bold;
+    
+    border-radius: 20px;
+    background: #80C2AF;
+    box-shadow: 20px 20px 60px #6da595,
+        -20px -20px 60px #93dfc9;
+}
+
+/* End - Main */

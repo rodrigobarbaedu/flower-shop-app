@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,500;1,500&family=Roboto:wght@500&family=Tilt+Neon&family=Young+Serif&display=swap');
+
+/* Basic */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Tilt Neon;
+    font-size: 16px;
+
+    color: #333;
+    background-color: #fff;
+}
+
+.base-custom {
+    background-color: #80c2af;
+}
+
+/* End - Basic */
+
+/* Main */
+#admin-link {
+    color: #80c2af;
+    font-weight: bolder;
+}
+
+#readonly-link {
+    color: #80a2c2;
+    font-weight: bolder;
+}
+
+/* End - Main */
