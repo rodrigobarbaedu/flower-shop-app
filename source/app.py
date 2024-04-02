@@ -1092,9 +1092,9 @@ def about():
 
 # ----- Web Services -----
 
-# Web Service Get Orders
+# Web Service Get Products
 @app.route("/webservice/get-products", methods=["GET"])
-def get_orders():
+def get_products():
     try:
         with app.app_context():
             client = Client('http://localhost:5002/soap?wsdl')
@@ -1123,6 +1123,66 @@ class WebServiceGetProducts(ServiceBase):
                 return str(product_list)
         except Exception as ex:
             return str(ex)
+# Web Service Get Products
+        
+# Web Service Get Users
+@app.route("/webservice/get-users", methods=["GET"])
+def get_users():
+    try:
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.get_users()
+            return result
+    except Exception as e:
+        return str(e)
+class WebServiceGetUsers(ServiceBase):
+    @rpc(_returns=Unicode)
+    def get_users(self):
+        try:
+            with app.app_context():
+                list = []
+                users = ModelUsers.get_users(db)
+                user_list = [Users(user[0], user[1], user[2], user[3], user[4], user[5], user[6], user[7], user[8], user[9], user[10]) for user in users]
+                for user in user_list:
+                    user_info = [
+                        user.id,
+                        user.username,
+                        user.password,
+                        user.firstname,
+                        user.lastname,
+                        user.email,
+                        user.physical_address,
+                        user.phone,
+                        user.start_time,
+                        user.end_time,
+                        user.user_type
+                    ]
+                    list.append(user_info)
+                return str(list)
+        except Exception as ex:
+            return str(ex)
+# Web Service Get Users
+        
+# Web Service Get Orders
+@app.route("/webservice/get-orders", methods=["GET"])
+def get_orders():
+    try:
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.get_orders()
+            return result
+    except Exception as e:
+        return str(e)
+class WebServiceGetOrders(ServiceBase):
+    @rpc(_returns=Unicode)
+    def get_orders(self):
+        try:
+            with app.app_context():
+                orders = ModelOrders.get_orders(db)
+                order_list = [[order[0], order[1], order[2], order[3], order[4], order[5], float(order[6]), float(order[7]), str(order[8])] for order in orders]
+                return str(order_list)
+        except Exception as ex:
+            return str(ex)
 # Web Service Get Orders
 
 # ----- Web Services -----   
@@ -1136,7 +1196,7 @@ class WebServiceGetProducts(ServiceBase):
 # Run SOAP Server Function
 def run_soap_server():
     from wsgiref.simple_server import make_server
-    soap_app = Application([WebServiceGetProducts], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
+    soap_app = Application([WebServiceGetProducts, WebServiceGetUsers, WebServiceGetOrders], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
     soap_wsgi_app = WsgiApplication(soap_app)
 
     soap_server = make_server('localhost', 5002, soap_wsgi_app)
