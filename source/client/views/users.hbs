@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="css/style-users.css">
+
+<Section>
+    <!-- Lista de Usuarios -->
+    <div class="container-output-custom mt-3 mb-3">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-table-list" style="color: #80c2af;"></i> - Lista de Usuarios</h1>
+        <div class="table-responsive">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered align-middle text-center" id="users-table">
+                        <thead>
+                            <tr>
+                                <th>Identificador</th>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo Electrónico</th>
+                                <th>Teléfono</th>
+                                <th>Hora de Inicio</th>
+                                <th>Hora de Fin</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            {{#each users}}
+                            <tr>
+                                <td>{{this.[0]}}</td>
+                                <td>{{this.[1]}}</td>
+                                <td>{{this.[3]}}</td>
+                                <td>{{this.[4]}}</td>
+                                <td>{{this.[5]}}</td>
+                                <td>{{this.[7]}}</td>
+                                <td>{{this.[8]}}</td>
+                                <td>{{this.[9]}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Lista de Usuarios -->
+</Section>
+
+<script src="js/script-users.js"></script>
