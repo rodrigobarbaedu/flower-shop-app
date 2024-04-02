@@ -24,7 +24,7 @@ app.set('view engine', '.hbs');
 
 // Home
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('dashboard');
 });
 // Home
 
@@ -38,13 +38,47 @@ app.get('/products', async (req, res) => {
 
         const products = JSON.parse(convert_products);
         
-        console.log(products);
         res.render('products', { products });
     } catch (error) {
         res.status(500).send(error.message);
     }
 });
 // Products
+
+// Users
+app.get('/users', async (req, res) => {
+    try {
+        const response = await axios.get('http://localhost:5001/webservice/get-users');
+
+        const list = response.data;
+        console.log(list);
+        const convert_users = list.replace(/'/g, '"');
+
+        const users = JSON.parse(convert_users);
+        
+        res.render('users', { users });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Users
+
+// Sales
+app.get('/sales', async (req, res) => {
+    try {
+        const response = await axios.get('http://localhost:5001/webservice/get-orders');
+
+        const list = response.data;
+        const convert_sales = list.replace(/'/g, '"');
+
+        const sales = JSON.parse(convert_sales);
+        
+        res.render('sales', { sales });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Sales
 
 // Run server
 app.listen(port, () => {
