@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="/css/style-dashboard.css">
+<link rel="stylesheet" href="/css/style-receipt.css">
+
+<section>
+    <div class="text-center mt-5">
+        <img src="/img/flower-logo.svg" alt="" srcset="" width="80">
+    </div>
+
+    <!-- Encabezado -->
+    <div class="container container-header w-auto m-auto mt-3 shadow-md text-center">
+        <p>Recibo (Compra)</p>
+    </div>
+    <!-- Encabezado -->
+
+    <!-- Subencabezado -->
+    <div class="container container-subheader w-auto m-auto mt-3 ml-3 pt-3 shadow-md">
+        <div class="row row-1">
+            <div class="col-md-6 col-12">
+                <span>Fecha</span>
+                <p id="subheader-date">{{ get_orders_by_id.[5] }}</p>
+            </div>
+            <div class="col-md-6 col-12">
+                <span>Número de orden</span>
+                <p id="subheader-order-number">NTDS3023</p>
+            </div>
+        </div>
+        <div class="row row-2">
+            <div class="col-md-6 col-12">
+                <span>Nombre Completo</span>  
+                <p id="subheader-fullname">{{ get_users_by_id.[3] }} {{ get_users_by_id.[4] }}</p>
+            </div>
+            <div class="col-md-6 col-12">
+                <span>Dirección</span>
+                <p id="subheader-address">{{ get_users_by_id.[6] }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- Subencabezado -->
+
+    <!-- Lista de productos -->
+    <div class="container container-product-list w-auto m-auto mt-3 pt-3 pb-3 shadow-md">
+        <div class="list-group">
+            <!-- Productos comprados -->
+            {{#each essential_data}}
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action mb-3" aria-current="true">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ this.[1] }}</h5>
+                        <h6>x&nbsp{{ this.[2] }}</h6>
+                    </div>
+                    <h6 id="list-group-item-custom" class="mb-1">Precio Unitario: ${{
+                        this.[3] }}</h6>
+                    <h6 id="list-group-item-custom">Precio Total: ${{ this.[4] }}</h6>
+                </a>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+    <!-- Lista de productos -->
+
+    <!-- Pie de página -->
+    <div class="container container-footer w-auto m-auto mt-3 mb-3 pt-3 shadow-md text-center">
+        <div class="row">
+            <div id="footer-left" class="col-lg-4 col-md-12 col-12">
+                <p class="">Fecha: <span id="footer-date">{{ get_orders_by_id.[5] }}</span></p>
+            </div>
+            <div id="footer-middle" class="col-lg-5 col-md-12 col-12">
+                <p class="">Método de pago: <i class="fa-brands fa-cc-visa"></i> <span
+                        id="footer-payment-method">*1253</span></p>
+            </div>
+            <div id="footer-right" class="col-lg-3 col-md-12 col-12">
+                <p>Total: $<span id="footer-total">{{ total_price }}</span></p>
+            </div>
+        </div>
+    </div>
+    <!-- Pie de página -->
+</section>
+
+<section>
+    <!-- Botón de salida e impresión -->
+    <div class="container container-button w-auto m-auto mt-3 mb-3 pt-3 shadow-md text-center">
+        <a href="/sales" class="btn btn-success">Regresar</a>
+        <a href="#" class="btn btn-primary" onclick="window.print()">Imprimir</a>
+    </div>
+    <!-- Botón de salida e impresión -->
+</section>
+
+<script src="/js/script-receipt.js"></script>

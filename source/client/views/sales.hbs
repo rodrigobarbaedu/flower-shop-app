@@ -20,6 +20,7 @@
                 <th>Cantidad Total</th>
                 <th>Precio Total</th>
                 <th>Fecha (Compra)</th>
+                <th>Recibo</th>
               </tr>
             </thead>
             <tbody id="product-list">
@@ -34,6 +35,7 @@
                     <td>{{this.[6]}}</td>
                     <td>{{this.[7]}}</td>
                     <td>{{this.[8]}}</td>
+                    <td><a href="sales/receipt/{{this.[0]}}" class="btn btn-success">Recibo</a></td>
                 </tr>
                 {{/each}}
             </tbody>
