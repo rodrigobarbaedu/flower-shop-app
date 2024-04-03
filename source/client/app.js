@@ -22,6 +22,9 @@ app.set('view engine', '.hbs');
 
 /* ----- Routes ----- */
 
+shopping_cart = [];
+total_checkout = 0;
+
 // Home
 app.get('/', (req, res) => {
     res.render('dashboard');
@@ -51,7 +54,6 @@ app.get('/users', async (req, res) => {
         const response = await axios.get('http://localhost:5001/webservice/get-users');
 
         const list = response.data;
-        console.log(list);
         const convert_users = list.replace(/'/g, '"');
 
         const users = JSON.parse(convert_users);
@@ -79,6 +81,134 @@ app.get('/sales', async (req, res) => {
     }
 });
 // Sales
+
+// Sales/Receipt
+app.get('/sales/receipt/:id', async (req, res) => {
+    try {
+        const response = await axios.get(`http://localhost:5001/webservice/get-order-receipt/${req.params.id}`);
+
+        const list = response.data;
+        const convert_sales = list.replace(/'/g, '"');
+
+        const order_data = JSON.parse(convert_sales);
+
+        const essential_data = order_data[0];
+        const get_orders_by_id = order_data[1];
+        const get_users_by_id = order_data[2];
+        const total_price = order_data[3][0];
+
+        res.render('receipt', { essential_data, get_orders_by_id, get_users_by_id, total_price });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Sales/Receipt
+
+// Shop
+app.get('/shop', async (req, res) => {
+    try {
+        const response = await axios.get('http://localhost:5001/webservice/get-products');
+
+        const list = response.data;
+        const convert_products = list.replace(/'/g, '"');
+
+        const products = JSON.parse(convert_products);
+        total_checkout = function() {
+            let total = 0;
+            shopping_cart.forEach(item => {
+                total += item.price * item.quantity;
+            });
+            return total;
+        }
+
+        const isEmpty = shopping_cart.length === 0;
+        
+        res.render('shop', { products, shopping_cart, total_checkout, isEmpty });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Shop
+
+// Shop/Add POST
+app.post('/shop/add/:id', async (req, res) => {
+    try {
+        const response = await axios.get(`http://localhost:5001/webservice/get-product/${req.params.id}`);
+
+        const list = response.data;
+        const convert_product = list.replace(/'/g, '"');
+
+        const product = JSON.parse(convert_product);
+        const quantity = req.body.quantity;
+
+        // Check if product is already in the shopping cart
+        const index = shopping_cart.findIndex(item => item.product_id === product[0]);
+
+        if (index !== -1) {
+            shopping_cart[index].quantity += parseInt(quantity);
+        } else {
+            shopping_cart.push(
+                {
+                    id: shopping_cart.length + 1,
+                    user_id: 0,
+                    product_id: product[0],
+                    name: product[1],
+                    price: product[5],
+                    quantity: parseInt(quantity),
+                    subtotal: product[5] * parseInt(quantity)
+                }
+            );
+        }
+
+        res.redirect('/shop');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Shop/Add POST
+
+// Shop/Remove POST
+app.post('/shop/remove/:id', async (req, res) => {
+    try {
+        shopping_cart = shopping_cart.filter(item => item.id != req.params.id);
+
+        res.redirect('/shop');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Shop/Remove POST
+
+// Shop/Clear
+app.get('/shop/clear', async (req, res) => {
+    try {
+        shopping_cart = [];
+
+        res.redirect('/shop');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Shop/Clear
+
+// Shop/Receipt POST
+app.post('/shop/receipt', async (req, res) => {
+    try {
+        const name = req.body.name;
+        const lastname = req.body.lastname;
+        const date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        total = total_checkout();
+
+        res.render('receipt-final', {shopping_cart, total, name, lastname, date});
+
+        shopping_cart = [];
+        total_checkout = 0;
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Shop/Receipt POST
 
 // Run server
 app.listen(port, () => {
