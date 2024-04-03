@@ -1102,6 +1102,16 @@ def get_products():
             return result
     except Exception as e:
         return str(e)
+    
+@app.route("/webservice/get-product/<int:id>", methods=["GET"])
+def get_products_by_id(id):
+    try:
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.get_products_by_id(id)
+            return result
+    except Exception as e:
+        return str(e)
 class WebServiceGetProducts(ServiceBase):
     @rpc(_returns=Unicode)
     def get_products(self):
@@ -1121,6 +1131,24 @@ class WebServiceGetProducts(ServiceBase):
                     ]
                     product_list.append(product_info)
                 return str(product_list)
+        except Exception as ex:
+            return str(ex)
+        
+    @rpc(Integer, _returns=Unicode)
+    def get_products_by_id(self, id):
+        try:
+            with app.app_context():
+                product = ModelProducts.get_products_by_id(db, id)
+                product_info = [
+                    product.id,
+                    product.name,
+                    product.description,
+                    product.quantity,
+                    product.alert_quantity,
+                    float(product.price),
+                    product.url_image
+                ]
+                return str(product_info)
         except Exception as ex:
             return str(ex)
 # Web Service Get Products
@@ -1184,6 +1212,67 @@ class WebServiceGetOrders(ServiceBase):
         except Exception as ex:
             return str(ex)
 # Web Service Get Orders
+        
+# Web Service Get Order Receipt
+@app.route("/webservice/get-order-receipt/<int:id>", methods=["GET"])
+def get_order_receipt(id):
+    try:
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.get_order_receipt(id)
+            return result
+    except Exception as e:
+        return str(e)
+class WebServiceGetOrderReceipt(ServiceBase):
+    @rpc(Integer, _returns=Unicode)
+    def get_order_receipt(self, id):
+        try:
+            with app.app_context():
+                essential_data_frame = ModelOrders.get_essential_order_data(db, id)
+                get_orders_by_id = ModelOrders.get_orders_by_id(db, id)
+                get_users_by_id = ModelUsers.get_users_by_id(db, get_orders_by_id[2])
+                total_price = ModelOrders.get_total_price_by_order(db, id)
+                
+                essential_data = []
+                for product in essential_data_frame:
+                    product_info = [
+                        product[0],
+                        product[1],
+                        product[2],
+                        float(product[3]),
+                        float(product[4])
+                    ]
+                essential_data.append(product_info)
+                
+                order_by_id = [
+                    get_orders_by_id[0],
+                    get_orders_by_id[1],
+                    get_orders_by_id[2],
+                    get_orders_by_id[3],
+                    get_orders_by_id[4],
+                    str(get_orders_by_id[5])
+                ]
+
+                user_by_id = [
+                    get_users_by_id.id,
+                    get_users_by_id.username,
+                    get_users_by_id.password,
+                    get_users_by_id.firstname,
+                    get_users_by_id.lastname,
+                    get_users_by_id.email,
+                    get_users_by_id.physical_address,
+                    get_users_by_id.phone,
+                    get_users_by_id.start_time,
+                    get_users_by_id.end_time,
+                    get_users_by_id.user_type
+                ]
+
+                price = [float(total_price)]
+
+                return str([essential_data, order_by_id, user_by_id, price])
+        except Exception as ex:
+            return str(ex)
+# Web Service Get Order Receipt
 
 # ----- Web Services -----   
 
@@ -1196,7 +1285,7 @@ class WebServiceGetOrders(ServiceBase):
 # Run SOAP Server Function
 def run_soap_server():
     from wsgiref.simple_server import make_server
-    soap_app = Application([WebServiceGetProducts, WebServiceGetUsers, WebServiceGetOrders], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
+    soap_app = Application([WebServiceGetProducts, WebServiceGetUsers, WebServiceGetOrders, WebServiceGetOrderReceipt], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
     soap_wsgi_app = WsgiApplication(soap_app)
 
     soap_server = make_server('localhost', 5002, soap_wsgi_app)
