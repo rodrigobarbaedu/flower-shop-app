@@ -31,6 +31,8 @@ app.get('/', (req, res) => {
 });
 // Home
 
+/* ----- SOAP ----- */
+
 // Products
 app.get('/products', async (req, res) => {
     try {
@@ -209,6 +211,90 @@ app.post('/shop/receipt', async (req, res) => {
     }
 });
 // Shop/Receipt POST
+
+/* ----- SOAP ----- */
+
+/* ----- REST ----- */
+
+// Products
+app.get('/rest/products', (req, res) => {
+    axios.get('http://localhost:5001/api/products')
+    .then(response => {
+        const products = response.data;
+        res.render('products-rest', { products });
+    })
+    .catch(error => {
+        res.status(500).send(error.message);
+    })
+});
+// Products
+
+// Products / Add
+app.post('/rest/products', (req, res) => {
+    axios.post('http://localhost:5001/api/products', {
+        name: req.body.name,
+        description: req.body.description,
+        quantity: req.body.quantity,
+        alert_quantity: req.body.alert_quantity,
+        price: req.body.price,
+        url_image: req.body.url_image
+    })
+    .then(response => {
+        console.log(response.data);
+        res.redirect('/rest/products');
+    })
+    .catch(error => {
+        res.status(500).send(error.message);
+    })
+});
+// Products / Add
+
+// Products / Edit
+app.get('/rest/products/edit/:id', (req, res) => {
+    axios.get(`http://localhost:5001/api/products-params/${req.params.id}`)
+    .then(response => {
+        const product = response.data;
+        res.render('products-rest-edit', { product });
+    })
+    .catch(error => {
+        res.status(500).send(error.message);
+    })
+});
+
+app.post('/rest/products/edit', (req, res) => {
+    axios.put(`http://localhost:5001/api/products`, {
+        id: req.body.id,
+        name: req.body.name,
+        description: req.body.description,
+        quantity: req.body.quantity,
+        alert_quantity: req.body.alert_quantity,
+        price: req.body.price,
+        url_image: req.body.url_image
+    })
+    .then(response => {
+        console.log(response.data);
+        res.redirect('/rest/products');
+    })
+    .catch(error => {
+        res.status(500).send(error.message);
+    })
+});
+// Products / Edit
+
+// Products / Delete
+app.post('/rest/products/:id', (req, res) => {
+    axios.delete(`http://localhost:5001/api/products/${req.body.id}`)
+    .then(response => {
+        console.log(response.data);
+        res.redirect('/rest/products');
+    })
+    .catch(error => {
+        res.status(500).send(error.message);
+    })
+});
+// Products / Delete
+
+/* ----- REST ----- */
 
 // Run server
 app.listen(port, () => {
