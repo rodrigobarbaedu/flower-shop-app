@@ -1,0 +1,96 @@
+<link rel="stylesheet" href="/css/style-products.css">
+
+<section>
+    <!-- Formulario de Insertar Producto -->
+    <div class="container-input-custom">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-square-plus"></i> - Insertar Producto</i></h1>
+        <div class="row">
+            <div class="col-md-12">
+                <form id="product-form" action="/rest/products/" method="POST">
+                    <input type="hidden" id="product-id" value="">
+                    <div class="form-group mt-3">
+                        <label for="product-name">Nombre:</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                            value="" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="product-description">Descripción:</label>
+                        <input type="text" class="form-control" id="description" name="description"
+                            value="" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="product-price">Cantidad:</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity"
+                            value="" min="1" max="9999" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="product-price">Alerta de Stock:</label>
+                        <input type="number" class="form-control" id="alert_quantity" name="alert_quantity"
+                            value="" min="1" max="9999" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="product-price">Precio:</label>
+                        <input type="number" class="form-control" id="price" name="price"
+                            value="" min="1" max="9999" required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="product-image-url">URL de Imagen (Opcional):</label>
+                        <input type="text" class="form-control" id="url_image" name="url_image"
+                            value="">
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Formulario de Insertar Producto -->
+</section>
+
+<Section>
+    <div class="container-output-custom mt-3 mb-3">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-table-list" style="color: #80c2af;"></i> - Lista de Productos</h1>
+        <div class="table-responsive">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered align-middle text-center" id="product-table" style="overflow: sc;">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Cantidad</th>
+                                <th>Alerta de Stock</th>
+                                <th>Precio Unitario</th>
+                                <th>Imagen</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list">
+                            {{#each products}}
+                            <tr>
+                              <td>{{this.id}}</td>
+                              <td>{{this.name}}</td>
+                              <td>{{this.description}}</td>
+                              <td>{{this.quantity}}</td>
+                              <td>{{this.alert_quantity}}</td>
+                              <td>{{this.price}}</td>
+                              <td>{{this.url_image}}</td>
+                              <td>
+                                    <a class="btn btn-success"
+                                        href="/rest/products/edit/{{this.id}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <form action="/rest/products/{{this.id}}" method="POST">
+                                        <input type="hidden" name="id" value="{{this.id}}">
+                                        <button class="btn btn-danger" type="submit"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</Section>
+
+<script src="/js/script-products.js"></script>
