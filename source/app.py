@@ -1,6 +1,7 @@
 # ----- Imports -----
 
 # Flask Imports
+from flask_restful import Api, Resource
 from flask_mysqldb import MySQL
 from flask_login import *
 from flask import *
@@ -44,6 +45,7 @@ from models.entities.shopping_cart import ShoppingCart
 # Flask Configuration
 app = Flask(__name__)
 db = MySQL(app)
+api = Api(app)
 # Flask Configuration
 
 # Login Configuration
@@ -1090,6 +1092,8 @@ def about():
 
 
 
+# ----- SOAP -----
+
 # ----- Web Services -----
 
 # Web Service Get Products
@@ -1275,6 +1279,97 @@ class WebServiceGetOrderReceipt(ServiceBase):
 # Web Service Get Order Receipt
 
 # ----- Web Services -----   
+
+# ----- SOAP -----
+
+
+
+
+
+# ----- REST -----
+
+# Products Resource
+class Product(Resource):
+    def get(self):
+        try:
+            product_list = ModelProducts.get_products(db)
+            products = []
+            for product in product_list:
+                product_info = {
+                    'id': product.id,
+                    'name': product.name,
+                    'description': product.description,
+                    'quantity': product.quantity,
+                    'alert_quantity': product.alert_quantity,
+                    'price': float(product.price),
+                    'url_image': product.url_image
+                }
+                products.append(product_info)
+            return jsonify(products)
+        except Exception as ex:
+            return str(ex)
+
+    def post(self):
+        try:
+            product = Products (
+                0,
+                request.json['name'],
+                request.json['description'],
+                request.json['quantity'],
+                request.json['alert_quantity'],
+                request.json['price'],
+                request.json['url_image']
+            )
+            ModelProducts.add_product(db, product)
+            return "Producto agregado correctamente."
+        except Exception as ex:
+            return str(ex)
+        
+    def put(self):
+        try:
+            product = Products (
+                request.json['id'],
+                request.json['name'],
+                request.json['description'],
+                request.json['quantity'],
+                request.json['alert_quantity'],
+                request.json['price'],
+                request.json['url_image']
+            )
+            ModelProducts.edit_product(db, product)
+            return "Producto actualizado correctamente."
+        except Exception as ex:
+            return str(ex)
+    
+    def delete(self, id):
+        try:
+            ModelProducts.delete_product(db, id)
+            return "Producto eliminado correctamente."
+        except Exception as ex:
+            return str(ex)
+        
+class ProductParams(Resource):
+    def get(self, id):
+        try:
+            product = ModelProducts.get_products_by_id(db, id)
+            product_info = {
+                'id': product.id,
+                'name': product.name,
+                'description': product.description,
+                'quantity': product.quantity,
+                'alert_quantity': product.alert_quantity,
+                'price': float(product.price),
+                'url_image': product.url_image
+            }
+            return jsonify(product_info)
+        except Exception as ex:
+            return str(ex)
+# Products Resource
+
+# Add Resource to API
+api.add_resource(Product, '/api/products', '/api/products/<int:id>')
+api.add_resource(ProductParams, '/api/products-params/<int:id>')
+# ----- REST -----
 
 
 
