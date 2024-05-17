@@ -1,5 +1,80 @@
 <link rel="stylesheet" href="css/style-users.css">
 
+<section>
+    <!-- Formulario de Insertar Usuario -->
+    <div class="container-input-custom">
+        <h1 class="pt-3 mt-3"><i class="fa-solid fa-user"></i> - Insertar Usuario</i></h1>
+        <div class="row">
+            <div class="col-md-12">
+                <form id="product-form" action="/users-write" method="POST">
+                    <div class="form-group mt-3">
+                        <label for="">Usuario:</label>
+                        <input type="text" class="form-control" id="" name="usernameInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Contraseña:</label>
+                        <input type="text" class="form-control" id="" name="passwordInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Nombre:</label>
+                        <input type="text" class="form-control" id="" name="firstnameInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Apellido:</label>
+                        <input type="text" class="form-control" id="" name="lastnameInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Correo Electrónico:</label>
+                        <input type="email" class="form-control" id="" name="emailInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Dirección:</label>
+                        <input type="text" class="form-control" id="" name="addressInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Teléfono:</label>
+                        <input type="number" class="form-control" id="" name="phoneInput" value=""
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Hora de Inicio:</label>
+                        <input type="time" class="form-control" id="" name="startTimeInput" value="="
+                            required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="">Hora de Fin:</label>
+                        <input type="time" class="form-control" id="" name="endTimeInput" value=""
+                            required>
+                    </div>
+                    <div class="mt-3">
+                        <label class="form-label">Tipo (Usuario)</label>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Cliente" checked>
+                            <label class="form-check-label" for="opcion1">Cliente</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Administrador">
+                            <label class="form-check-label" for="opcion2">Administrador</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input bg-success" type="radio" name="userTypeInput" value="Empleado">
+                            <label class="form-check-label" for="opcion3">Empleado</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Formulario de Insertar Usuario -->
+</section>
+
 <Section>
     <!-- Lista de Usuarios -->
     <div class="container-output-custom mt-3 mb-3">
@@ -18,6 +93,7 @@
                                 <th>Teléfono</th>
                                 <th>Hora de Inicio</th>
                                 <th>Hora de Fin</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="product-list">
@@ -31,6 +107,13 @@
                                 <td>{{this.[7]}}</td>
                                 <td>{{this.[8]}}</td>
                                 <td>{{this.[9]}}</td>
+                                <td>
+                                    <a class="btn btn-success" href="/users/edit/{{this.[0]}}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <form action="/users/delete/{{this.[0]}}" method="post">
+                                        <input type="hidden" name="id" value="{{this.[0]}}">
+                                        <button class="btn btn-danger" type="submit"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                             {{/each}}
                         </tbody>
