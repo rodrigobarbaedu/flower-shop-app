@@ -8,7 +8,7 @@ from flask import *
 # Flask Imports
 
 # Spyne Imports
-from spyne import Application, rpc, ServiceBase, Integer, Unicode
+from spyne import Application, rpc, ServiceBase, String, Integer, Unicode
 from spyne.server.wsgi import WsgiApplication
 from spyne.protocol.soap import Soap11
 # Spyne Imports
@@ -18,6 +18,7 @@ from suds.client import Client
 from functools import wraps
 from config import config
 import threading
+import socket
 # Python Imports
 
 # Models Imports
@@ -25,6 +26,7 @@ from models.model_users import ModelUsers
 from models.model_orders import ModelOrders
 from models.model_products import ModelProducts
 from models.model_shopping_cart import ModelShoppingCart
+from models.model_transaction_log import ModelTransactionLog
 # Models Imports
 
 # Entities Imports
@@ -32,6 +34,7 @@ from models.entities.users import Users
 from models.entities.orders import Orders
 from models.entities.products import Products
 from models.entities.shopping_cart import ShoppingCart
+from models.entities.transaction_log import TransactionLog
 # Entities Imports
 
 # ----- Imports -----
@@ -45,6 +48,7 @@ from models.entities.shopping_cart import ShoppingCart
 # Flask Configuration
 app = Flask(__name__)
 db = MySQL(app)
+
 api = Api(app)
 # Flask Configuration
 
@@ -237,6 +241,21 @@ def load_user(id):
 
 
 # ----- Dashboard -----
+
+# Get IP Function
+def get_ip():
+
+    try:
+        # Create a connection socket with the IP address 8.8.8.8 (Google's DNS server) on port 80
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]  # Get the IP address of the socket
+        s.close()
+        return ip
+    except Exception as e:
+        print("Error obtaining IP address:", e)
+        return None
+# Get IP Function
 
 # Get Count Shopping Cart Function
 def get_count_shopping_cart(user_id):
@@ -1092,6 +1111,31 @@ def about():
 
 
 
+# ----- Web Services Log -----
+def add_transaction_log(protocol, web_service, operation, section):
+    try:
+        ip = get_ip()
+        ModelTransactionLog.add_transaction_log(db, protocol, web_service, operation, section, 0, ip)
+    except Exception as e:
+        raise Exception(e)
+
+
+@app.route("/webservices-log")
+@login_required
+@admin_required
+
+def webservices_log():
+    return render_template("public/webservices-log.html",
+        get_count_shopping_cart=get_count_shopping_cart(current_user.id),
+        get_count_notifications=get_count_notifications(),
+        logs=ModelTransactionLog.get_transaction_logs(db)
+    )
+# ----- Web Services Log -----
+
+
+
+
+
 # ----- SOAP -----
 
 # ----- Web Services -----
@@ -1103,6 +1147,7 @@ def get_products():
         with app.app_context():
             client = Client('http://localhost:5002/soap?wsdl')
             result = client.service.get_products()
+            add_transaction_log("SOAP", "/webservice/get-products", "GET", "Products")
             return result
     except Exception as e:
         return str(e)
@@ -1113,6 +1158,7 @@ def get_products_by_id(id):
         with app.app_context():
             client = Client('http://localhost:5002/soap?wsdl')
             result = client.service.get_products_by_id(id)
+            add_transaction_log("SOAP", "/webservice/get-product/<int:id>", "GET", "Products")
             return result
     except Exception as e:
         return str(e)
@@ -1164,6 +1210,7 @@ def get_users():
         with app.app_context():
             client = Client('http://localhost:5002/soap?wsdl')
             result = client.service.get_users()
+            add_transaction_log("SOAP", "/webservice/get-users", "GET", "Users")
             return result
     except Exception as e:
         return str(e)
@@ -1194,7 +1241,174 @@ class WebServiceGetUsers(ServiceBase):
         except Exception as ex:
             return str(ex)
 # Web Service Get Users
+
+# Werb Service Get User
+@app.route("/webservice/get-user/<int:id>", methods=["GET"])
+def get_user_by_id(id):
+    try:
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.get_user_by_id(id)
+            add_transaction_log("SOAP", "/webservice/get-user/<int:id>", "GET", "Users")
+            return result
+    except Exception as e:
+        return str(e)
+class WebServiceGetUser(ServiceBase):
+    @rpc(Integer, _returns=Unicode)
+    def get_user_by_id(self, id):
+        try:
+            with app.app_context():
+                user = ModelUsers.get_users_by_id(db, id)
+                user_info = [
+                    user.id,
+                    user.username,
+                    user.password,
+                    user.firstname,
+                    user.lastname,
+                    user.email,
+                    user.physical_address,
+                    user.phone,
+                    user.start_time,
+                    user.end_time,
+                    user.user_type
+                ]
+                return str(user_info)
+        except Exception as ex:
+            return str(ex)
+# Werb Service Get User
+
+# Web Service Add Users
+@app.route("/webservice/add-user", methods=["POST"])
+def add_user_soap():
+    try:
+        with app.app_context():
+            user_type = int()
+            if (request.json['user_type'] == "Cliente"):
+                user_type = 0
+            elif (request.json['user_type'] == "Administrador"):
+                user_type = 1
+            elif (request.json['user_type'] == "Empleado"):
+                user_type = 2
+
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.add_user(
+                request.json['username'],
+                request.json['password'],
+                request.json['firstname'],
+                request.json['lastname'],
+                request.json['email'],
+                request.json['address'],
+                request.json['phone'],
+                request.json['start_time'],
+                request.json['end_time'],
+                user_type
+            )
+            return result
+    except Exception as e:
+        return str(e)
+class WebServiceAddUser(ServiceBase):
+    @rpc(String, String, String, String, String, String, String, String, String, Integer, _returns=Unicode)
+    def add_user(self, username, password, firstname, lastname, email, physical_address, phone, start_time, end_time, user_type):
+        try:
+            with app.app_context():
+                user = Users (
+                    0,
+                    username,
+                    password,
+                    firstname,
+                    lastname,
+                    email,
+                    physical_address,
+                    phone,
+                    start_time,
+                    end_time,
+                    user_type
+                )
+                ModelUsers.add_user(db, user)
+                return "Usuario agregado correctamente."
+        except Exception as ex:
+            return str(ex)
+# Web Service Add Users
         
+# Web Service Edit Users
+@app.route("/webservice/edit-user/<int:id>", methods=["POST"])
+def edit_user_soap(id):
+    try:
+        with app.app_context():
+            user_type = int()
+            if (request.json['user_type'] == "Cliente"):
+                user_type = 0
+            elif (request.json['user_type'] == "Administrador"):
+                user_type = 1
+            elif (request.json['user_type'] == "Empleado"):
+                user_type = 2
+
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.edit_user(
+                id,
+                request.json['username'],
+                request.json['password'],
+                request.json['firstname'],
+                request.json['lastname'],
+                request.json['email'],
+                request.json['address'],
+                request.json['phone'],
+                request.json['start_time'],
+                request.json['end_time'],
+                user_type
+            )
+            add_transaction_log("SOAP", "/webservice/edit-user/<int:id>", "POST", "Users")
+            return result
+    except Exception as e:
+        return str(e)
+
+class WebServiceEditUser(ServiceBase):
+    @rpc(Integer, String, String, String, String, String, String, String, String, String, Integer, _returns=Unicode)
+    def edit_user(self, id, username, password, firstname, lastname, email, physical_address, phone, start_time, end_time, user_type):
+        try:
+            with app.app_context():
+                user = Users (
+                    id,
+                    username,
+                    password,
+                    firstname,
+                    lastname,
+                    email,
+                    physical_address,
+                    phone,
+                    start_time,
+                    end_time,
+                    user_type
+                )
+                ModelUsers.edit_user(db, user)
+                return "Usuario actualizado correctamente."
+        except Exception as ex:
+            return str(ex)
+# Web Service Edit Users
+        
+# Web Service Delete Users
+@app.route("/webservice/delete-user/<int:id>", methods=["POST"])
+def delete_user_soap(id):
+    try:
+        with app.app_context():
+            client = Client('http://localhost:5002/soap?wsdl')
+            result = client.service.delete_user(id)
+            add_transaction_log("SOAP", "/webservice/delete-user/<int:id>", "POST", "Users")
+            return result
+    except Exception as e:
+        return str(e)
+
+class WebServiceDeleteUser(ServiceBase):
+    @rpc(Integer, _returns=Unicode)
+    def delete_user(self, id):
+        try:
+            with app.app_context():
+                ModelUsers.delete_user(db, id)
+                return "Usuario eliminado correctamente."
+        except Exception as ex:
+            return str(ex)
+# Web Service Delete Users
+
 # Web Service Get Orders
 @app.route("/webservice/get-orders", methods=["GET"])
 def get_orders():
@@ -1202,6 +1416,7 @@ def get_orders():
         with app.app_context():
             client = Client('http://localhost:5002/soap?wsdl')
             result = client.service.get_orders()
+            add_transaction_log("SOAP", "/webservice/get-orders", "GET", "Orders")
             return result
     except Exception as e:
         return str(e)
@@ -1224,6 +1439,7 @@ def get_order_receipt(id):
         with app.app_context():
             client = Client('http://localhost:5002/soap?wsdl')
             result = client.service.get_order_receipt(id)
+            add_transaction_log("SOAP", "/webservice/get-order-receipt/<int:id>", "GET", "Orders")
             return result
     except Exception as e:
         return str(e)
@@ -1305,6 +1521,8 @@ class Product(Resource):
                     'url_image': product.url_image
                 }
                 products.append(product_info)
+            
+            add_transaction_log("REST", "/api/products", "GET", "Products")
             return jsonify(products)
         except Exception as ex:
             return str(ex)
@@ -1321,6 +1539,7 @@ class Product(Resource):
                 request.json['url_image']
             )
             ModelProducts.add_product(db, product)
+            add_transaction_log("REST", "/api/products", "POST", "Products")
             return "Producto agregado correctamente."
         except Exception as ex:
             return str(ex)
@@ -1337,6 +1556,7 @@ class Product(Resource):
                 request.json['url_image']
             )
             ModelProducts.edit_product(db, product)
+            add_transaction_log("REST", "/api/products", "PUT", "Products")
             return "Producto actualizado correctamente."
         except Exception as ex:
             return str(ex)
@@ -1344,6 +1564,7 @@ class Product(Resource):
     def delete(self, id):
         try:
             ModelProducts.delete_product(db, id)
+            add_transaction_log("REST", "/api/products", "DELETE", "Products")
             return "Producto eliminado correctamente."
         except Exception as ex:
             return str(ex)
@@ -1361,6 +1582,7 @@ class ProductParams(Resource):
                 'price': float(product.price),
                 'url_image': product.url_image
             }
+            add_transaction_log("REST", "/api/products-params/<int:id>", "GET", "Products")
             return jsonify(product_info)
         except Exception as ex:
             return str(ex)
@@ -1380,7 +1602,7 @@ api.add_resource(ProductParams, '/api/products-params/<int:id>')
 # Run SOAP Server Function
 def run_soap_server():
     from wsgiref.simple_server import make_server
-    soap_app = Application([WebServiceGetProducts, WebServiceGetUsers, WebServiceGetOrders, WebServiceGetOrderReceipt], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
+    soap_app = Application([WebServiceGetProducts, WebServiceGetUsers, WebServiceGetUser, WebServiceAddUser, WebServiceEditUser, WebServiceDeleteUser, WebServiceGetOrders, WebServiceGetOrderReceipt], 'example', in_protocol=Soap11(validator='lxml'), out_protocol=Soap11())
     soap_wsgi_app = WsgiApplication(soap_app)
 
     soap_server = make_server('localhost', 5002, soap_wsgi_app)
@@ -1392,6 +1614,7 @@ def run_soap_server():
 def run_flask_server():
     print("Iniciando servidor Flask en http://localhost:5001")
     app.config.from_object(config['development'])
+
     app.run(port=5001, debug=True)
 # Run Flask Server Function
 
