@@ -67,6 +67,103 @@ app.get('/users', async (req, res) => {
 });
 // Users
 
+// Users-Write POST
+app.post('/users-write', async (req, res) => {
+    try {
+        const username = req.body.usernameInput;
+        const password = req.body.passwordInput;
+        const firstname = req.body.firstnameInput;
+        const lastname = req.body.lastnameInput;
+        const email = req.body.emailInput;
+        const address = req.body.addressInput;
+        const phone = req.body.phoneInput;
+        const startTime = req.body.startTimeInput;
+        const endTime = req.body.endTimeInput;
+        const userType = req.body.userTypeInput;
+
+        const response = await axios.post('http://localhost:5001/webservice/add-user', {
+            username: username,
+            password: password,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            address: address,
+            phone: phone,
+            start_time: startTime,
+            end_time: endTime,
+            user_type: userType
+        });
+
+        res.redirect('/users');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+// Users-Write Edit GET
+app.get('/users/edit/:id', async (req, res) => {
+    try {
+        const response = await axios.get(`http://localhost:5001/webservice/get-user/${req.params.id}`);
+
+        const list = response.data;
+        const convert_users = list.replace(/'/g, '"');
+
+        const user = JSON.parse(convert_users);
+
+        res.render('users-edit', { user });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Users-Write Edit GET
+
+// Users-Write Edit POST
+app.post('/users/edit/:id', async (req, res) => {
+    try {
+        const id = req.body.id;
+        const username = req.body.usernameInput;
+        const password = req.body.passwordInput;
+        const firstname = req.body.firstnameInput;
+        const lastname = req.body.lastnameInput;
+        const email = req.body.emailInput;
+        const address = req.body.addressInput;
+        const phone = req.body.phoneInput;
+        const startTime = req.body.startTimeInput;
+        const endTime = req.body.endTimeInput;
+        const userType = req.body.userTypeInput;
+
+        const response = await axios.post(`http://localhost:5001/webservice/edit-user/${req.params.id}`, {
+            id: id,
+            username: username,
+            password: password,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            address: address,
+            phone: phone,
+            start_time: startTime,
+            end_time: endTime,
+            user_type: userType
+        });
+
+        res.redirect('/users');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+// Users-Write Delete POST
+app.post('/users/delete/:id', async (req, res) => {
+    try {
+        const response = await axios.post(`http://localhost:5001/webservice/delete-user/${req.params.id}`)
+
+        res.redirect('/users');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+// Users-Write Delete POST
+
 // Sales
 app.get('/sales', async (req, res) => {
     try {
