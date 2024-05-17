@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block css_sheets %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-log.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style-about.css') }}">
+<style>
+    body {
+        background-color: #c280a2;
+    }
+</style>
+
+<!-- Data Tables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+
+<!-- Query -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Data Tables JS -->
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+{% endblock %}
+
+{% block subtitle %} Acerca {% endblock %}
+
+{% block content %}
+<Section>
+    <!-- Log -->
+    <div class="container-output-custom mt-3 mb-3">
+      <h1 class="pt-3 "><i class="fa-solid fa-table-list" style="color: #c280a2;"></i> - Log (Web Services)</h1>
+      {% if is_empty_receipt == 1 %}
+      <div class="alert alert-warning alert-dismissible fade show mt-3" role="alert">
+        <strong>¡No hay Log!</strong> No se han encontrado Logs en la base de datos.
+      </div>
+      {% else %}
+      <div class="table-responsive">
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-striped table-bordered align-middle text-center" id="product-table"
+              style="">
+              <thead>
+                <tr>
+                  <th>Identificador</th>
+                  <th>Protocolo</th>
+                  <th>Servicio Web</th>
+                  <th>Método</th>
+                  <th>Sección</th>
+                  <th>Fecha</th>
+                  <th>Usuario</th>
+                  <th>Dirección IP</th>
+                </tr>
+              </thead>
+              <tbody id="product-list">
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log[0] }}</td>
+                    <td>{{ log[1] }}</td>
+                    <td>{{ log[2] }}</td>
+                    <td>{{ log[3] }}</td>
+                    <td>{{ log[4] }}</td>
+                    <td>{{ log[5] }}</td>
+                    <td>{{ log[6] }}</td>
+                    <td>{{ log[7] }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <!-- Log -->
+</Section>
+{% endblock %}
+
+{% block js_scripts %}
+<script src="{{ url_for('static', filename='js/script-receipts.js') }}"></script>
+{% endblock %}
